@@ -8,8 +8,8 @@ const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 
     return (
         <div>
-            <h2> {name} {surname} </h2>
-            <h3> {age} </h3>
+            <h2> Full Name: {name} {surname} </h2>
+            <h3> Age: {age} </h3>
         </div>
     );
 };
