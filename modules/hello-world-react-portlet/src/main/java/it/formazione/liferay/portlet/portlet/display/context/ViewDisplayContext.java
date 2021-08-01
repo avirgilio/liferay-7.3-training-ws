@@ -1,8 +1,5 @@
 package it.formazione.liferay.portlet.portlet.display.context;
 
-import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -13,10 +10,9 @@ import java.util.Map;
 
 public class ViewDisplayContext {
 
-    public ViewDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse) {
+    public ViewDisplayContext(RenderRequest renderRequest) {
 
         _renderRequest = renderRequest;
-        _renderResponse = renderResponse;
     }
 
     public Map<String, Object> getReactData() {
@@ -37,5 +33,4 @@ public class ViewDisplayContext {
     }
 
     private final RenderRequest _renderRequest;
-    private final RenderResponse _renderResponse;
 }

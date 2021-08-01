@@ -1,18 +1,15 @@
 package it.formazione.liferay.portlet.portlet;
 
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.WebKeys;
 import it.formazione.liferay.portlet.constants.HelloWorldReactPortletKeys;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import it.formazione.liferay.portlet.portlet.display.context.ViewDisplayContext;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import it.formazione.liferay.portlet.portlet.display.context.ViewDisplayContext;
-import org.osgi.service.component.annotations.Component;
-
 import java.io.IOException;
 
 /**
@@ -36,9 +33,10 @@ import java.io.IOException;
 public class HelloWorldReactPortlet extends MVCPortlet {
 
 	@Override
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
+			throws IOException, PortletException {
 
-		ViewDisplayContext viewDisplayContext = new ViewDisplayContext(renderRequest, renderResponse);
+		ViewDisplayContext viewDisplayContext = new ViewDisplayContext(renderRequest);
 		renderRequest.setAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT, viewDisplayContext);
 
 		super.render(renderRequest, renderResponse);
