@@ -1,0 +1,21 @@
+{
+	"name": "hello-world-react-portlet",
+	"dependencies": {
+		"@clayui/card": "^3.32.0",
+		"@clayui/css": "^3.32.1",
+		"@clayui/panel": "^3.32.0",
+		"react": "16.12.0"
+	},
+	"devDependencies": {
+		"liferay-npm-scripts": "^32.7.0"
+	},
+	"scripts": {
+		"build": "liferay-npm-scripts build",
+		"checkFormat": "liferay-npm-scripts check",
+		"format": "liferay-npm-scripts fix"
+	},
+	"engines": {
+		"node": ">=12"
+	},
+	"version": "1.0.0"
+}

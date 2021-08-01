@@ -1,0 +1,6 @@
+Bundle-Name: Hello World React Portlet
+Bundle-SymbolicName: it.formazione.liferay.react.portlet
+Bundle-Version: 1.0.0
+Liferay-Releng-Category: Formation
+-includeresource: META-INF/resources=build/node/packageRunBuild/resources
+Web-ContextPath: /hello-world-react-portlet
