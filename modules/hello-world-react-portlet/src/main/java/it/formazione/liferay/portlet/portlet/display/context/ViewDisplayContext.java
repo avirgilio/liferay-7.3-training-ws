@@ -5,7 +5,6 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import java.util.Map;
 
 public class ViewDisplayContext {
@@ -29,7 +28,8 @@ public class ViewDisplayContext {
     }
 
     private ThemeDisplay _getThemeDisplay() {
-        return (ThemeDisplay) _renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+        return (ThemeDisplay) _renderRequest.getAttribute(
+            WebKeys.THEME_DISPLAY);
     }
 
     private final RenderRequest _renderRequest;

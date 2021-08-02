@@ -17,7 +17,11 @@ export default ({name, surname, age, spritemap}) => {
                         spritemap={spritemap}
                     >
                         <ClayPanel.Body>
-                            <UserInfoPanelBodyComponent name={name} surname={surname} age={age} />
+                            <UserInfoPanelBodyComponent
+                                name={name}
+                                surname={surname}
+                                age={age}
+                            />
                         </ClayPanel.Body>
                     </ClayPanel>
                 </ClayLayout.Col>

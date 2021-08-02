@@ -33,11 +33,15 @@ import java.io.IOException;
 public class HelloWorldReactPortlet extends MVCPortlet {
 
 	@Override
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
+	public void render(
+				RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
 
-		ViewDisplayContext viewDisplayContext = new ViewDisplayContext(renderRequest);
-		renderRequest.setAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT, viewDisplayContext);
+		ViewDisplayContext viewDisplayContext =
+			new ViewDisplayContext(renderRequest);
+
+		renderRequest.setAttribute(
+			WebKeys.PORTLET_DISPLAY_CONTEXT, viewDisplayContext);
 
 		super.render(renderRequest, renderResponse);
 	}
