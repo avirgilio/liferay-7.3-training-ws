@@ -1,0 +1,4 @@
+Bundle-Name: My Personal Menu Entry Demo
+Bundle-SymbolicName: it.formazione.liferay.personal.menu.entry
+Bundle-Version: 1.0.0
+Export-Package: it.formazione.liferay.personal.menu.entry.constants
