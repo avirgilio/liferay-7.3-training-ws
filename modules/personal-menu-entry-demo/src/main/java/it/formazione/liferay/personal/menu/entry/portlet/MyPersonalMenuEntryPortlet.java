@@ -1,19 +1,10 @@
 package it.formazione.liferay.personal.menu.entry.portlet;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import it.formazione.liferay.personal.menu.entry.constants.MyPersonalMenuEntryPortletKeys;
-
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
+import it.formazione.liferay.personal.menu.entry.constants.MyPersonalMenuEntryPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import java.io.IOException;
+import javax.portlet.Portlet;
 
 /**
  * @author Alessandro Virgilio
