@@ -4,7 +4,7 @@ import ClayLayout from '@clayui/layout';
 
 import UserInfoPanelBodyComponent from "./components/UserInfoPanelBodyComponent";
 
-export default ({name, surname, age, spritemap}) => {
+export default ({name, surname, spritemap, baseResourceURL}) => {
     return (
         <ClayLayout.ContainerFluid view>
             <ClayLayout.Row justify="center">
@@ -20,7 +20,7 @@ export default ({name, surname, age, spritemap}) => {
                             <UserInfoPanelBodyComponent
                                 name={name}
                                 surname={surname}
-                                age={age}
+                                baseResourceURL={baseResourceURL}
                             />
                         </ClayPanel.Body>
                     </ClayPanel>
