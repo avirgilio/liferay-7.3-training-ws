@@ -9,6 +9,7 @@ import it.formazione.liferay.portlet.constants.HelloWorldReactPortletKeys;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ViewDisplayContext {
@@ -18,13 +19,22 @@ public class ViewDisplayContext {
     }
 
     public Map<String, Object> getReactData() {
+
+        HashMap<String, Object> propsMap = HashMapBuilder
+            .<String, Object>put("name", "Alessandro")
+            .put("surname", "Virgilio")
+            .put("age", 26)
+            .build();
+
+        HashMap<String, Object> contextMap = HashMapBuilder
+            .<String, Object>put("spritemap", _getClaySpriteMap())
+            .put("baseResourceURL", _getPortletBaseResourceURL().toString())
+            .build();
+
         return HashMapBuilder
-                .<String, Object>put("name", "Alessandro")
-                .put("surname", "Virgilio")
-                .put("age", 26)
-                .put("spritemap", _getClaySpriteMap())
-                .put("baseResourceURL", _getPortletBaseResourceURL().toString())
-                .build();
+            .<String, Object>put("context", contextMap)
+            .put("props", propsMap)
+            .build();
     }
 
     private LiferayPortletURL _getPortletBaseResourceURL()  {

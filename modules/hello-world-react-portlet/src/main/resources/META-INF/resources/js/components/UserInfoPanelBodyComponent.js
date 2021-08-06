@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 
 import ClayButton from '@clayui/button';
 import ClayLayout from '@clayui/layout';
 import ClayAlert from '@clayui/alert';
 
+import DisplayUserInfoContext from "../DisplayUserInfoContext";
 import UserInfoPanelAlert from "./UserInfoPanelAlert";
 
-const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL, spritemap}) => {
+const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 
+	const {spritemap, baseResourceURL} = useContext(DisplayUserInfoContext);
 	const [isDataAvailable, setIsDataAvailable] = useState(false);
 	const [status, setStatus] = useState('ko');
 

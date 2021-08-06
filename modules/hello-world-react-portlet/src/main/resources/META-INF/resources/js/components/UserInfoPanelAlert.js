@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 
 import ClayLayout from '@clayui/layout';
 import ClayAlert from '@clayui/alert';
 
-const UserInfoPanelAlert = ({name, surname, status, spritemap}) => {
+import DisplayUserInfoContext from "../DisplayUserInfoContext";
+
+const UserInfoPanelAlert = ({name, surname, status}) => {
+
+	const {spritemap} = useContext(DisplayUserInfoContext);
 
 	const displayType = status === 'ok' ? 'success' : 'danger';
 
