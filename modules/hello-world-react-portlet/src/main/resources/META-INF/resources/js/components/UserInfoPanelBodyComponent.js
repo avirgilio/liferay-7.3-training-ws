@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ClayButton from '@clayui/button';
+import ClayLayout from '@clayui/layout';
 
 const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL}) => {
 
@@ -10,26 +11,26 @@ const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL}) => {
 
     const handleClick = (name, surname) => {
 
-        let portletURL = new Liferay.PortletURL.createURL(baseResourceURL);
+		// p_p_auth = Liferay.authToken
+		const resourceParameters = {
+			p_p_resource_id: "myResourceCommand",
+			name: name,
+			surname: surname,
+			age: age
+		};
 
-        portletURL.setResourceId('myResourceCommand');
-        portletURL.setParameter('p_auth', Liferay.authToken);
-
-        const data = {
-            "name": name,
-            "surname": surname,
-            "age": age
-        };
+        const portletURL = Liferay.Util.PortletURL.createResourceURL(baseResourceURL, resourceParameters);
 
         Liferay.Util.fetch(portletURL.toString(), {
-            body: JSON.stringify(data),
-            method: 'POST',
+            method: 'POST'
         })
-            .then((response) => {
-                return response.json();
-            })
+        	.then((response) => {
+        		return response.json();
+        	})
             .then((data) => {
                console.log("Sending data ok!");
+               console.log("data");
+               console.log(data);
             })
             .catch((err) => {
                 console.error("EXCEPTION!");
@@ -38,17 +39,21 @@ const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL}) => {
     };
 
     return (
-        <>
-            <h2> Full Name: {name} {surname} </h2>
-            <h3> Age: {age} </h3>
-
-            <ClayButton
-                displayType="primary"
-                onClick={() => handleClick(name, surname, age)}
-            >
-                {Liferay.Language.get('send-user-notification-button-label')}
-            </ClayButton>
-        </>
+        <ClayLayout.ContainerFluid view>
+			<ClayLayout.Row justify="start">
+                <ClayLayout.Col size={4}>
+					<h2> {name} {surname} {age} </h2>
+				</ClayLayout.Col>
+				<ClayLayout.Col size={4}>
+					<ClayButton
+						displayType="primary"
+						onClick={() => handleClick(name, surname, age)}
+					>
+						{Liferay.Language.get('info-panel-button-label')}
+					</ClayButton>
+				</ClayLayout.Col>
+			</ClayLayout.Row>
+        </ClayLayout.ContainerFluid>
     );
 };
 
