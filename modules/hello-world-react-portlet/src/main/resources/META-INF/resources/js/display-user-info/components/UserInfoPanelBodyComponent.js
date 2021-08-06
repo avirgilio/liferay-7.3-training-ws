@@ -69,7 +69,6 @@ const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 					name={name}
 					surname={surname}
 					status={status}
-					spritemap={spritemap}
 				/>
 			}
         </ClayLayout.ContainerFluid>
