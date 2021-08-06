@@ -1,6 +1,7 @@
 {
 	"name": "hello-world-react-portlet",
 	"dependencies": {
+		"@clayui/alert": "^3.32.0",
 		"@clayui/button": "^3.32.0",
 		"@clayui/css": "^3.32.1",
 		"@clayui/layout": "^3.32.0",

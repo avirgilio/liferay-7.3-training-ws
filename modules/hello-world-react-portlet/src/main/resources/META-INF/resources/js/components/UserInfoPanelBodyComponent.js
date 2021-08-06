@@ -1,9 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+
 import ClayButton from '@clayui/button';
 import ClayLayout from '@clayui/layout';
+import ClayAlert from '@clayui/alert';
 
-const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL}) => {
+import UserInfoPanelAlert from "./UserInfoPanelAlert";
+
+const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL, spritemap}) => {
+
+	const [isDataAvailable, setIsDataAvailable] = useState(false);
+	const [status, setStatus] = useState('ko');
 
     useEffect(() => {
         console.log(`SHOW USER: ${name} ${surname}`)
@@ -28,9 +35,9 @@ const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL}) => {
         		return response.json();
         	})
             .then((data) => {
-               console.log("Sending data ok!");
-               console.log("data");
                console.log(data);
+               setStatus(data.status);
+               setIsDataAvailable(true);
             })
             .catch((err) => {
                 console.error("EXCEPTION!");
@@ -53,6 +60,16 @@ const UserInfoPanelBodyComponent = ({name, surname, age, baseResourceURL}) => {
 					</ClayButton>
 				</ClayLayout.Col>
 			</ClayLayout.Row>
+
+			{
+			 isDataAvailable &&
+				<UserInfoPanelAlert
+					name={name}
+					surname={surname}
+					status={status}
+					spritemap={spritemap}
+				/>
+			}
         </ClayLayout.ContainerFluid>
     );
 };
