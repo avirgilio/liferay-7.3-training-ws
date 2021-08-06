@@ -4,17 +4,13 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.notifications.NotificationEvent;
-import com.liferay.portal.kernel.notifications.NotificationEventFactoryUtil;
+import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
-import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import it.formazione.liferay.portlet.constants.HelloWorldReactPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -37,39 +33,33 @@ public class DemoResourceCommandMVCResourceCommand
 
 		if (_log.isDebugEnabled()) {
 
-			_log.debug("Render user notification handler");
+			_log.debug("demo resource command");
 
 			Set<String> availableRequestParameters =
 				resourceRequest.getParameterMap().keySet();
 
-			_log.debug("Available parameters: " +
-					   StringUtil.merge(availableRequestParameters));
+			_log.debug("Available parameters: "
+					   + StringUtil.merge(availableRequestParameters));
 		}
 
-		JSONObject notificationPayload = JSONFactoryUtil.createJSONObject();
+		String name = ParamUtil.getString(resourceRequest, "name");
+		String surname = ParamUtil.getString(resourceRequest, "surname");
+		String age = ParamUtil.getString(resourceRequest, "age");
 
-		notificationPayload.put(
-			"name", ParamUtil.getString(resourceRequest, "name"));
+		JSONObject values = JSONFactoryUtil.createJSONObject();
 
-		notificationPayload.put(
-			"surname", ParamUtil.getString(resourceRequest, "surname"));
+		values.put("age", age);
+		values.put("name", name);
+		values.put("surname", surname);
 
-		notificationPayload.put(
-			"age", ParamUtil.getString(resourceRequest, "age"));
+		JSONObject response = JSONFactoryUtil.createJSONObject();
 
-		NotificationEvent notificationEvent =
-			NotificationEventFactoryUtil.createNotificationEvent(
-				System.currentTimeMillis(),
-				HelloWorldReactPortletKeys.HELLO_WORLD_REACT,
-				notificationPayload);
+		response.put("status", "ok");
+		response.put("insertedValues", values);
 
-		_userNotificationEventLocalService.addUserNotificationEvent(
-			PortalUtil.getUserId(resourceRequest), notificationEvent);
+		JSONPortletResponseUtil.writeJSON(
+			resourceRequest, resourceResponse, response);
 	}
-
-	@Reference
-	private UserNotificationEventLocalService
-		_userNotificationEventLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DemoResourceCommandMVCResourceCommand.class);

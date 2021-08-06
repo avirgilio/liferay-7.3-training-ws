@@ -1,5 +1,6 @@
 package it.formazione.liferay.portlet.portlet.display.context;
 
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -13,7 +14,6 @@ import java.util.Map;
 public class ViewDisplayContext {
 
     public ViewDisplayContext(RenderRequest renderRequest) {
-
         _renderRequest = renderRequest;
     }
 
@@ -23,16 +23,15 @@ public class ViewDisplayContext {
                 .put("surname", "Virgilio")
                 .put("age", 26)
                 .put("spritemap", _getClaySpriteMap())
-                .put("baseResourceURL", _getPortletBaseResourceURL())
+                .put("baseResourceURL", _getPortletBaseResourceURL().toString())
                 .build();
     }
 
-    private String _getPortletBaseResourceURL() {
+    private LiferayPortletURL _getPortletBaseResourceURL()  {
 
-       return PortletURLFactoryUtil.create(
-            _renderRequest, HelloWorldReactPortletKeys.HELLO_WORLD_REACT,
-            _getThemeDisplay().getPlid(),
-            PortletRequest.RESOURCE_PHASE).toString();
+        return PortletURLFactoryUtil.create(
+              _renderRequest, HelloWorldReactPortletKeys.HELLO_WORLD_REACT,
+              _getThemeDisplay().getPlid(), PortletRequest.RESOURCE_PHASE);
     }
 
     private String _getClaySpriteMap() {
@@ -40,8 +39,8 @@ public class ViewDisplayContext {
     }
 
     private ThemeDisplay _getThemeDisplay() {
-        return (ThemeDisplay) _renderRequest.getAttribute(
-            WebKeys.THEME_DISPLAY);
+        return (ThemeDisplay)
+            _renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
     private final RenderRequest _renderRequest;
