@@ -6,6 +6,8 @@ const DisplayUserInfoContext = React.createContext({
 	baseResourceURL: ''
 });
 
+DisplayUserInfoContext.displayName = 'MyDisplayUserInfoContext';
+
 DisplayUserInfoContext.Provider.propTypes = {
 	value: PropTypes.shape({
 		spritemap: PropTypes.string,
