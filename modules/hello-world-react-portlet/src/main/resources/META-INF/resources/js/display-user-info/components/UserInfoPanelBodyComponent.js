@@ -1,18 +1,17 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 
+import {createResourceURL, fetch, openToast } from 'frontend-js-web';
+
 import ClayButton from '@clayui/button';
 import ClayLayout from '@clayui/layout';
 import ClayAlert from '@clayui/alert';
 
 import DisplayUserInfoContext from "../DisplayUserInfoContext";
-import UserInfoPanelAlert from "./UserInfoPanelAlert";
 
 const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 
 	const {spritemap, baseResourceURL} = useContext(DisplayUserInfoContext);
-	const [isDataAvailable, setIsDataAvailable] = useState(false);
-	const [status, setStatus] = useState('ko');
 
     useEffect(() => {
         console.log(`SHOW USER: ${name} ${surname}`)
@@ -28,9 +27,9 @@ const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 			age: age
 		};
 
-        const portletURL = Liferay.Util.PortletURL.createResourceURL(baseResourceURL, resourceParameters);
+       const portletURL = createResourceURL(baseResourceURL, resourceParameters);
 
-        Liferay.Util.fetch(portletURL.toString(), {
+       fetch (portletURL.toString(), {
             method: 'POST'
         })
         	.then((response) => {
@@ -38,12 +37,19 @@ const UserInfoPanelBodyComponent = ({name, surname, age}) => {
         	})
             .then((data) => {
                console.log(data);
-               setStatus(data.status);
-               setIsDataAvailable(true);
+               openToast({
+					message: Liferay.Language.get('user-info-ok'),
+					type: 'success',
+				});
             })
             .catch((err) => {
                 console.error("EXCEPTION!");
                 console.error(err);
+
+                openToast({
+					message: Liferay.Language.get('error'),
+					type: 'danger',
+				});
             });
     };
 
@@ -62,15 +68,6 @@ const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 					</ClayButton>
 				</ClayLayout.Col>
 			</ClayLayout.Row>
-
-			{
-			 isDataAvailable &&
-				<UserInfoPanelAlert
-					name={name}
-					surname={surname}
-					status={status}
-				/>
-			}
         </ClayLayout.ContainerFluid>
     );
 };
