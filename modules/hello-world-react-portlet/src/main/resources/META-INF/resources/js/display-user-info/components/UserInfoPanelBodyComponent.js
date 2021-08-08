@@ -57,7 +57,7 @@ const UserInfoPanelBodyComponent = ({name, surname, age}) => {
         <ClayLayout.ContainerFluid view>
 			<ClayLayout.Row justify="start">
                 <ClayLayout.Col size={4}>
-					<h2> {name} {surname} {age} </h2>
+					<h2> {name} {surname}, {age} </h2>
 				</ClayLayout.Col>
 				<ClayLayout.Col size={4}>
 					<ClayButton
