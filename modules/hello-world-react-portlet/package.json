@@ -5,9 +5,12 @@
 		"@clayui/button": "^3.32.0",
 		"@clayui/css": "^3.32.1",
 		"@clayui/layout": "^3.32.0",
+		"@clayui/link": "^3.32.0",
+		"@clayui/navigation-bar": "^3.32.0",
 		"@clayui/panel": "^3.32.0",
 		"prop-types": "^15.7.2",
-		"react": "16.12.0"
+		"react": "16.12.0",
+		"react-router-dom": "^5.2.0"
 	},
 	"devDependencies": {
 		"liferay-npm-scripts": "^32.7.0"
