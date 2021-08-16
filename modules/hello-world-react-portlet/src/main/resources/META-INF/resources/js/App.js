@@ -22,7 +22,7 @@ const ProtectedRoute = ({component: Component, ...rest}) => (
 	/>
 );
 
-export default function ({context, props}) {
+export default function ({context, displayUserInfoProps}) {
 	return (
 		<AppContext.Provider value={context}>
 			<Router>
@@ -33,7 +33,7 @@ export default function ({context, props}) {
 						exact
 						path='/'
 						render={() => (
-							<DisplayUserInfoComponent {...props} />
+							<DisplayUserInfoComponent {...displayUserInfoProps} />
 						)}
                     />
 

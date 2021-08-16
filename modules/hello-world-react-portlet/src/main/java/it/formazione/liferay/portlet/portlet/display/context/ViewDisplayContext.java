@@ -20,7 +20,7 @@ public class ViewDisplayContext {
 
     public Map<String, Object> getReactData() {
 
-        HashMap<String, Object> propsMap = HashMapBuilder
+        HashMap<String, Object> displayUserInfoPropsMap = HashMapBuilder
             .<String, Object>put("name", "Alessandro")
             .put("surname", "Virgilio")
             .put("age", 26)
@@ -33,7 +33,7 @@ public class ViewDisplayContext {
 
         return HashMapBuilder
             .<String, Object>put("context", contextMap)
-            .put("props", propsMap)
+            .put("displayUserInfoProps", displayUserInfoPropsMap)
             .build();
     }
 
