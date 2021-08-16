@@ -5,10 +5,10 @@ import ClayButton from '@clayui/button';
 import {ClayDropDownWithItems} from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
 
-import DisplayUserInfoContext from "../../display-user-info/DisplayUserInfoContext";
+import AppContext from "../../AppContext";
 
 function RowOptions({user}) {
-	const {spritemap} = useContext(DisplayUserInfoContext);
+	const {spritemap} = useContext(AppContext);
 	let history = useHistory();
 
 	const OPTIONS = [

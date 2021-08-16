@@ -16,7 +16,7 @@
 <div id="<portlet:namespace />my-react-component-wrapper">
 	<react:component
 			componentId="<portlet:namespace />-user-viewer"
-			module="js/index"
+			module="js/App"
 			props="<%= displayContext.getReactData() %>"
 	/>
 </div>

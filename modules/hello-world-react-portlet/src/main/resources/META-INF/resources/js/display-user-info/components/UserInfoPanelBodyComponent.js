@@ -1,17 +1,15 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import PropTypes from 'prop-types';
 
 import {createResourceURL, fetch, openToast } from 'frontend-js-web';
 
 import ClayButton from '@clayui/button';
 import ClayLayout from '@clayui/layout';
-import ClayAlert from '@clayui/alert';
-
-import DisplayUserInfoContext from "../DisplayUserInfoContext";
+import AppContext from '../../AppContext';
 
 const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 
-	const {spritemap, baseResourceURL} = useContext(DisplayUserInfoContext);
+	const {baseResourceURL} = useContext(AppContext);
 
     useEffect(() => {
         console.log(`SHOW USER: ${name} ${surname}`)

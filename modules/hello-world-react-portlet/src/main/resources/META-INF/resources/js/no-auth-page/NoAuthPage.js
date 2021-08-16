@@ -2,12 +2,11 @@ import React, {useContext} from 'react';
 
 import ClayLayout from '@clayui/layout';
 import ClayAlert from '@clayui/alert';
-
-import DisplayUserInfoContext from "../display-user-info/DisplayUserInfoContext";
+import AppContext from '../AppContext';
 
 const NoAuthPage = () => {
 
-	const {spritemap} = useContext(DisplayUserInfoContext);
+	const {spritemap} = useContext(AppContext);
 
 	return (
 		<ClayLayout.ContainerFluid view>

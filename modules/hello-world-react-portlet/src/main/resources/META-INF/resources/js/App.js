@@ -2,12 +2,13 @@ import React from 'react';
 import {HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import DisplayUserInfoComponent from "./display-user-info/DisplayUserInfoComponent";
-import DisplayUserInfoContext from "./display-user-info/DisplayUserInfoContext";
+
 import PortalUsers from "./portal-users/PortalUsers";
 import UserDetail from "./portal-users/components/user-detail/UserDetail";
 
 import NavBar from "./nav-bar/NavBar";
 import NoAuthPage from "./no-auth-page/NoAuthPage";
+import AppContext from './AppContext';
 
 const ProtectedRoute = ({component: Component, ...rest}) => (
 	<Route
@@ -23,7 +24,7 @@ const ProtectedRoute = ({component: Component, ...rest}) => (
 
 export default function ({context, props}) {
 	return (
-		<DisplayUserInfoContext.Provider value={context}>
+		<AppContext.Provider value={context}>
 			<Router>
 				<NavBar />
 
@@ -56,6 +57,6 @@ export default function ({context, props}) {
 				</Switch>
 
 			</Router>
-		</DisplayUserInfoContext.Provider>
+		</AppContext.Provider>
 	);
 }

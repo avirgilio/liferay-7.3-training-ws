@@ -3,10 +3,10 @@ import ClayPanel from '@clayui/panel';
 import ClayLayout from '@clayui/layout';
 
 import UserInfoPanelBodyComponent from "./components/UserInfoPanelBodyComponent";
-import DisplayUserInfoContext from "./DisplayUserInfoContext";
+import AppContext from '../AppContext';
 
 export default ({name, surname}) => {
-	const {spritemap} = useContext(DisplayUserInfoContext)
+	const {spritemap} = useContext(AppContext)
 
     return (
         <ClayLayout.ContainerFluid view>

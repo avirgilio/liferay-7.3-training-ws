@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const DisplayUserInfoContext = React.createContext({
+const AppContext = React.createContext({
 	spritemap: '',
 	baseResourceURL: ''
 });
 
-DisplayUserInfoContext.displayName = 'MyDisplayUserInfoContext';
+AppContext.displayName = 'AppContext';
 
-DisplayUserInfoContext.Provider.propTypes = {
+AppContext.Provider.propTypes = {
 	value: PropTypes.shape({
 		spritemap: PropTypes.string,
 		baseResourceURL: PropTypes.string
 	})
 };
 
-export default DisplayUserInfoContext;
+export default AppContext;
