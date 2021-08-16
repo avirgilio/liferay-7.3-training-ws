@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
 import ClayTable from '@clayui/table';
 import ClayLayout from '@clayui/layout';
 
 import RowOptions from './components/RowOptions';
+import useLiferayServiceOrSessionStorage from '../hooks/useLiferayServiceOrSessionStorage';
 
 const UserRow = ({user}) => {
 	return (
@@ -16,31 +17,15 @@ const UserRow = ({user}) => {
 }
 
 const PortalUsers = () => {
-	const [portalUser, setPortalUsers] = useState([]);
 	const KEY_STORAGE_NAME = `portal-users-${Liferay.ThemeDisplay.getScopeGroupId()}`;
 
-	const fetchGroupUsers = () => {
-		Liferay.Service('/user/get-group-users',
-		  {
-			groupId: Liferay.ThemeDisplay.getScopeGroupId()
-		  },
-		  function(users) {
-			setPortalUsers(users);
-			sessionStorage.setItem(KEY_STORAGE_NAME, JSON.stringify(users))
-		  }
-		);
-	}
-
-	useEffect(() => {
-		if (sessionStorage.getItem(KEY_STORAGE_NAME)) {
-			let users = JSON.parse(sessionStorage.getItem(KEY_STORAGE_NAME));
-			setPortalUsers(users);
-		}
-		else {
-			fetchGroupUsers();
-		}
-     }, []);
-
+	const {data: portalUsers} = useLiferayServiceOrSessionStorage('/user/get-group-users', [], {
+		groupId: Liferay.ThemeDisplay.getScopeGroupId()
+	  }, 
+	  true,
+	  KEY_STORAGE_NAME
+	);
+	
 	return (
 		<ClayLayout.ContainerFluid view>
 			<ClayLayout.Row justify="center">
@@ -55,7 +40,7 @@ const PortalUsers = () => {
 						</ClayTable.Row>
 					</ClayTable.Head>
 					<ClayTable.Body>
-						{portalUser.map((user) =>
+						{portalUsers.map((user) =>
 							<UserRow user={user} key={user.userId} />
 						)}
 					</ClayTable.Body>

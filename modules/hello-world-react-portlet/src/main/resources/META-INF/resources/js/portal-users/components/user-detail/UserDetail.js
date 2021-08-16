@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {useParams, useHistory} from 'react-router-dom';
 
 import ClayLayout from '@clayui/layout';
 import {ClayInput} from '@clayui/form';
 import ClayButton from '@clayui/button';
+import useLiferayServiceOrSessionStorage from '../../../hooks/useLiferayServiceOrSessionStorage';
 
 const Input = ({id, defaultValue, label}) => {
 	return (
@@ -27,30 +28,17 @@ const UserDetail = () => {
 	let { userId } = useParams();
 	let history = useHistory();
 
-	const [user, setUser] = useState({});
-
-	const fetchUser = () => {
-		Liferay.Service('/user/get-user-by-id',
-		  {
-			userId: userId
-		  },
-		  function(user) {
-			setUser(user);
-		  }
-		);
-	}
-
-	useEffect(() => {
-		if (sessionStorage.getItem(KEY_STORAGE_NAME)) {
-			let users = JSON.parse(sessionStorage.getItem(KEY_STORAGE_NAME));
-			const user = users.find(user => user.userId == userId);
-			setUser(user);
-		}
-		else {
-			fetchUser();
-		}
-	}, []);
-
+	const {data: user} = useLiferayServiceOrSessionStorage('/user/get-user-by-id', {} ,{
+		userId: userId
+	  }, 
+	  true,
+	  KEY_STORAGE_NAME,
+	  () => {
+		  let users = JSON.parse(sessionStorage.getItem(KEY_STORAGE_NAME));
+		  return users.find(user => user.userId == userId);
+	  }
+	);
+	
 	return (
 		<ClayLayout.ContainerFluid view>
 			<ClayLayout.Row justify="center">
