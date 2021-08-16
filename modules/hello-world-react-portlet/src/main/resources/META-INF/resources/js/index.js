@@ -4,6 +4,7 @@ import {HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import DisplayUserInfoComponent from "./display-user-info/DisplayUserInfoComponent";
 import DisplayUserInfoContext from "./display-user-info/DisplayUserInfoContext";
 import PortalUsers from "./portal-users/PortalUsers";
+import UserDetail from "./portal-users/components/user-detail/UserDetail";
 
 import NavBar from "./nav-bar/NavBar";
 import NoAuthPage from "./no-auth-page/NoAuthPage";
@@ -27,7 +28,6 @@ export default function ({context, props}) {
 				<NavBar />
 
 				<Switch>
-
 					<Route
 						exact
 						path='/'
@@ -42,13 +42,19 @@ export default function ({context, props}) {
 						path="/portal-users"
 					/>
 
+					<ProtectedRoute
+						component={UserDetail}
+						exact
+						path="/portal-users/view/:userId"
+					/>
+
 					<Route
 						component={NoAuthPage}
 						exact
 						path="/no-auth"
 					/>
-
 				</Switch>
+
 			</Router>
 		</DisplayUserInfoContext.Provider>
 	);
