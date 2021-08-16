@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ClayPanel from '@clayui/panel';
 import ClayLayout from '@clayui/layout';
 
 import UserInfoPanelBodyComponent from "./components/UserInfoPanelBodyComponent";
+import AppContext from '../AppContext';
 
-export default ({name, surname, age, spritemap}) => {
+export default ({name, surname}) => {
+	const {spritemap} = useContext(AppContext)
+
     return (
         <ClayLayout.ContainerFluid view>
             <ClayLayout.Row justify="center">
@@ -20,7 +23,6 @@ export default ({name, surname, age, spritemap}) => {
                             <UserInfoPanelBodyComponent
                                 name={name}
                                 surname={surname}
-                                age={age}
                             />
                         </ClayPanel.Body>
                     </ClayPanel>
