@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.false=true",
 		"javax.portlet.display-name=MyCustomContextFactory",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.init-param.view-template=/favorite-documents/favorite-documents-view.jsp",
 		"javax.portlet.name=" +
 			MyCustomContextFactoryPortletKeys.MY_CUSTOM_CONTEXT_FACTORY,
 		"javax.portlet.resource-bundle=content.Language",

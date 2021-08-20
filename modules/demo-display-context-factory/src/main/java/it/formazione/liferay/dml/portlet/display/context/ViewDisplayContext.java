@@ -33,6 +33,10 @@ public class ViewDisplayContext {
 		return _fileVersion.getUserName();
 	}
 
+	public long getDocumentCreatorUserId() {
+		return _fileVersion.getUserId();
+	}
+
 	public String getDocumentDescription() {
 
 		String documentDescription = _fileVersion.getDescription();

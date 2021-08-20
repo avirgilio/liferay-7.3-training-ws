@@ -34,7 +34,7 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 		throws PortletException {
 
 		RequestDispatcher requestDispatcher =
-			servletContext.getRequestDispatcher("/view.jsp");
+			servletContext.getRequestDispatcher("/favorite-documents-panel.jsp");
 
 		try {
 
@@ -48,7 +48,7 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 
 		} catch (Exception e) {
 			throw new PortletException(
-				"Unable to include view.jsp", e);
+				"Unable to include favorite-documents-panel.jsp", e);
 		}
 
 		return MVCRenderConstants.MVC_PATH_VALUE_SKIP_DISPATCH;

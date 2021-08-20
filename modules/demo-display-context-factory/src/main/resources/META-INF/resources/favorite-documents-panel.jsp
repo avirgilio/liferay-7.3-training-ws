@@ -5,14 +5,28 @@
 	ViewDisplayContext displayContext = new ViewDisplayContext(fileVersionId, request);
 %>
 
+<portlet:actionURL name="/action/add-document-to-favorite" var="addToFavoriteURL" />
+
 <liferay-frontend:edit-form
     name="fm"
+	action="<%= addToFavoriteURL %>"
+	method="post"
 >
     <liferay-frontend:edit-form-body>
         <liferay-frontend:fieldset-group>
             <liferay-frontend:fieldset>
-                <aui:input label="document-creator-user-name"
-                	name="Creator"
+
+				<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
+
+				<aui:input
+					name="userId"
+					type="hidden"
+					value="<%= displayContext.getDocumentCreatorUserId() %>"
+				/>
+
+                <aui:input
+                	label="document-creator-user-name"
+                	name="creator"
                 	type="text"
                 	value="<%= displayContext.getDocumentCreatorUserName() %>"
                 	readOnly="<%= true %>"
