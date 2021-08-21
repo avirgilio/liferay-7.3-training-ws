@@ -2,10 +2,21 @@
 
 <%
 	long fileVersionId = ParamUtil.getLong(request, "fileVersionId");
+	String downloadURL = ParamUtil.getString(request, "downloadURL");
 	ViewDisplayContext displayContext = new ViewDisplayContext(fileVersionId, request);
 %>
 
 <portlet:actionURL name="/action/add-document-to-favorite" var="addToFavoriteURL" />
+
+<liferay-ui:success
+	key="addedDocumentToFavorite"
+	message="added-document-to-favorites"
+ />
+
+<liferay-ui:error
+	exception="<%= ExistingFavoriteDocumentException.class %>"
+	message="document-already-existing-in-favorites"
+/>
 
 <liferay-frontend:edit-form
     name="fm"
@@ -17,6 +28,7 @@
             <liferay-frontend:fieldset>
 
 				<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
+				<aui:input name="downloadURL" type="hidden" value="<%= downloadURL %>" />
 
 				<aui:input
 					name="userId"

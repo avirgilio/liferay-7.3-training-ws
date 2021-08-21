@@ -5,7 +5,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import it.formazione.liferay.dml.exception.ExistingFavoriteDocumentException;
 import it.formazione.liferay.dml.model.dto.FavoriteDocumentDTO;
 import it.formazione.liferay.dml.provider.FavoriteDocumentProvider;
 import org.osgi.service.component.annotations.Component;
@@ -39,19 +42,36 @@ public class AddDocumentToFavoriteMVCActionCommand
 
 		String title = ParamUtil.getString(actionRequest, "docName");
 
+		String creator =
+			ParamUtil.getString(actionRequest, "creator");
+
 		String description =
 			ParamUtil.getString(actionRequest, "docDescription");
 
+		String downloadURL =
+			ParamUtil.getString(actionRequest, "downloadURL");
+
 		FavoriteDocumentDTO documentDTO =
-			FavoriteDocumentDTO.of(userId, title, description,
-				creationDate);
+			FavoriteDocumentDTO.of(
+				userId, creator, title, description, creationDate, downloadURL);
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Added document to favorites: ");
 			_log.debug(documentDTO.toString());
 		}
 
-		_favoriteDocumentProvider.addEntry(userId, documentDTO);
+		hideDefaultSuccessMessage(actionRequest);
+		hideDefaultErrorMessage(actionRequest);
+
+		try {
+
+			_favoriteDocumentProvider.addEntry(userId, documentDTO);
+			SessionMessages.add(actionRequest, "addedDocumentToFavorite");
+
+		} catch (ExistingFavoriteDocumentException e) {
+			_log.error(e);
+			SessionErrors.add(actionRequest, e.getClass().getName());
+		}
 
 		sendRedirect(
 			actionRequest, actionResponse,

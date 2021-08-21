@@ -1,5 +1,6 @@
 package it.formazione.liferay.dml.provider;
 
+import it.formazione.liferay.dml.exception.ExistingFavoriteDocumentException;
 import it.formazione.liferay.dml.model.dto.FavoriteDocumentDTO;
 import org.osgi.service.component.annotations.Component;
 
@@ -15,15 +16,26 @@ public class CacheFavoriteDocumentProviderImpl
 	implements FavoriteDocumentProvider {
 
 	@Override
-	public FavoriteDocumentDTO addEntry(long userId, FavoriteDocumentDTO doc) {
+	public FavoriteDocumentDTO addEntry(long userId, FavoriteDocumentDTO doc)
+		throws ExistingFavoriteDocumentException {
 
 		List<FavoriteDocumentDTO> favoriteDocuments =
 			_favoriteDocumentMap.getOrDefault(userId, new ArrayList<>());
 
+		boolean isExistingDocument = favoriteDocuments
+			.stream()
+			.anyMatch(
+				existingDoc -> existingDoc.getTitle().equals(doc.getTitle()));
+
+		if (isExistingDocument) {
+			throw new ExistingFavoriteDocumentException(
+				"Document already in favorite");
+		}
+
 		favoriteDocuments.add(doc);
 		_favoriteDocumentMap.put(userId, favoriteDocuments);
 
-		 return doc;
+		return doc;
 	}
 
 	@Override
@@ -32,6 +44,6 @@ public class CacheFavoriteDocumentProviderImpl
 		return _favoriteDocumentMap.get(userId);
 	}
 
-	private ConcurrentHashMap<Long, List<FavoriteDocumentDTO>>
+	private final ConcurrentHashMap<Long, List<FavoriteDocumentDTO>>
 		_favoriteDocumentMap = new ConcurrentHashMap<>();
 }

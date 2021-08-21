@@ -4,13 +4,16 @@ import com.liferay.document.library.constants.DLPortletKeys;
 import com.liferay.document.library.display.context.BaseDLViewFileVersionDisplayContext;
 import com.liferay.document.library.display.context.DLViewFileVersionDisplayContext;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.document.library.util.DLURLHelperUtil;
 import com.liferay.petra.io.unsync.UnsyncStringWriter;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.servlet.taglib.ui.JavaScriptMenuItem;
 import com.liferay.portal.kernel.servlet.taglib.ui.Menu;
@@ -140,14 +143,22 @@ public class MyCustomDLViewFileVersionDisplayContext
 			portletURL.setParameter(
 				"mvcRenderCommandName", "/action/myViewRenderCommand");
 
+			FileEntry fileEntry = fileVersion.getFileEntry();
+
 			portletURL.setWindowState(LiferayWindowState.POP_UP);
+
+			String downloadURL = DLURLHelperUtil.getDownloadURL(fileEntry,
+				fileEntry.getFileVersion(),
+				_themeDisplay, StringPool.BLANK);
 
 			portletURL.setParameter("fileVersionId",
 				String.valueOf(fileVersion.getFileVersionId()));
 
+			portletURL.setParameter("downloadURL", downloadURL);
+
 			portletURL.setParameter("redirect", _themeDisplay.getURLCurrent());
 		}
-		catch (WindowStateException e) {
+		catch (WindowStateException | PortalException e) {
 			_log.error(e,e);
 		}
 
