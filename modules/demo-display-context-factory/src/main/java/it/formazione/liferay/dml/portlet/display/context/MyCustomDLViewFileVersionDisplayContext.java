@@ -63,12 +63,13 @@ public class MyCustomDLViewFileVersionDisplayContext
 	@Override
 	public Menu getMenu() throws PortalException {
 
-		_log.info(
-			"DL VIEW FILE VERSION: GET MENU'");
-
 		Menu menu = super.getMenu();
 
 		if (_log.isDebugEnabled()) {
+
+			_log.debug(
+				"DL VIEW FILE VERSION: GET MENU'");
+
 			_log.debug("Adding custom entry");
 		}
 
