@@ -8,15 +8,16 @@ public class FavoriteDocumentDTO {
 	public static FavoriteDocumentDTO of(
 		long userId, String userName,
 		String title, String description, String creationDate,
-		String downloadURL) {
+		String downloadURL, String previewURL) {
 
 		return new FavoriteDocumentDTO(
-			userId, userName, title, description, creationDate, downloadURL);
+			userId, userName, title, description, creationDate,
+			downloadURL, previewURL);
 	}
 
 	private FavoriteDocumentDTO(
 		long userId, String userName, String title, String description,
-		String creationDate, String downloadURL) {
+		String creationDate, String downloadURL, String previewURL) {
 
 		this._userId = userId;
 		this._userName = userName;
@@ -24,6 +25,7 @@ public class FavoriteDocumentDTO {
 		this._description = description;
 		this._creationDate = creationDate;
 		this._downloadURL = downloadURL;
+		this._previewURL = previewURL;
 	}
 
 	public String getTitle() {
@@ -50,21 +52,27 @@ public class FavoriteDocumentDTO {
 		return _downloadURL;
 	}
 
+	public String getPreviewURL() {
+		return _previewURL;
+	}
+
 	@Override
 	public String toString() {
-		return "FavoriteDocumentDTO{" +
-			   "_userId=" + _userId +
-			   ", _userName='" + _userName + '\'' +
-			   ", _downloadURL='" + _downloadURL + '\'' +
-			   ", _title='" + _title + '\'' +
-			   ", _description='" + _description + '\'' +
-			   ", _creationDate='" + _creationDate + '\'' +
+		return "FavoriteDocumentDTO {" +
+			   "userId=" + _userId +
+			   ", userName='" + _userName + '\'' +
+			   ", downloadURL='" + _downloadURL + '\'' +
+			   ", previewURL='" + _previewURL + '\'' +
+			   ", title='" + _title + '\'' +
+			   ", description='" + _description + '\'' +
+			   ", creationDate='" + _creationDate + '\'' +
 			   '}';
 	}
 
 	private final long _userId;
 	private final String _userName;
 	private final String _downloadURL;
+	private final String _previewURL;
 	private final String _title;
 	private final String _description;
 	private final String _creationDate;

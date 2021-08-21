@@ -3,6 +3,7 @@
 <%
 	long fileVersionId = ParamUtil.getLong(request, "fileVersionId");
 	String downloadURL = ParamUtil.getString(request, "downloadURL");
+	String previewURL = ParamUtil.getString(request, "previewURL");
 	ViewDisplayContext displayContext = new ViewDisplayContext(fileVersionId, request);
 %>
 
@@ -29,6 +30,7 @@
 
 				<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 				<aui:input name="downloadURL" type="hidden" value="<%= downloadURL %>" />
+				<aui:input name="previewURL" type="hidden" value="<%= previewURL %>" />
 
 				<aui:input
 					name="userId"

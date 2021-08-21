@@ -40,9 +40,17 @@
 							 <button
 								type="button"
 								onclick="location.href='${document.downloadURL}';"
-								class="btn btn-secondary"
+								class="btn btn-primary"
 							>
 								Download
+							</button>
+
+							<button
+								type="button"
+								onclick="window.open('${document.previewURL}')"
+								class="btn btn-secondary"
+							>
+								Open Preview
 							</button>
 						</td>
 					  </tr>

@@ -51,9 +51,13 @@ public class AddDocumentToFavoriteMVCActionCommand
 		String downloadURL =
 			ParamUtil.getString(actionRequest, "downloadURL");
 
+		String previewURL =
+			ParamUtil.getString(actionRequest, "previewURL");
+
 		FavoriteDocumentDTO documentDTO =
 			FavoriteDocumentDTO.of(
-				userId, creator, title, description, creationDate, downloadURL);
+				userId, creator, title, description, creationDate,
+				downloadURL, previewURL);
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Added document to favorites: ");

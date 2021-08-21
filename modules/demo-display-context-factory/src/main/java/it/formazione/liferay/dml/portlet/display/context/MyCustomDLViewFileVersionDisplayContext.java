@@ -147,6 +147,10 @@ public class MyCustomDLViewFileVersionDisplayContext
 
 			portletURL.setWindowState(LiferayWindowState.POP_UP);
 
+			String previewURL = DLURLHelperUtil.getPreviewURL(
+				fileEntry, fileEntry.getFileVersion(), _themeDisplay,
+				StringPool.BLANK);
+
 			String downloadURL = DLURLHelperUtil.getDownloadURL(fileEntry,
 				fileEntry.getFileVersion(),
 				_themeDisplay, StringPool.BLANK);
@@ -154,6 +158,7 @@ public class MyCustomDLViewFileVersionDisplayContext
 			portletURL.setParameter("fileVersionId",
 				String.valueOf(fileVersion.getFileVersionId()));
 
+			portletURL.setParameter("previewURL", previewURL);
 			portletURL.setParameter("downloadURL", downloadURL);
 
 			portletURL.setParameter("redirect", _themeDisplay.getURLCurrent());
