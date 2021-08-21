@@ -6,6 +6,7 @@ import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
 import it.formazione.liferay.dml.constants.MyCustomContextFactoryPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
+import javax.portlet.PortletRequest;
 import java.util.Locale;
 
 /**
@@ -31,4 +32,11 @@ public class MyFavoriteDocumentsEntry extends BasePersonalMenuEntry {
 		return LanguageUtil.get(
 			getResourceBundle(locale), "favorite-documents-menu-entry-label");
 	}
+
+	@Override
+	public String getIcon(PortletRequest portletRequest) {
+		return ENTRY_ICON;
+	}
+
+	private static final String ENTRY_ICON = "documents-and-media";
 }
