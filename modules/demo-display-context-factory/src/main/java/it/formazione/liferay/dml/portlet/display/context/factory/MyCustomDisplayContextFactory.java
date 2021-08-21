@@ -25,7 +25,7 @@ public class MyCustomDisplayContextFactory extends BaseDLDisplayContextFactory {
 		HttpServletResponse httpServletResponse, FileVersion fileVersion) {
 
 		if (_log.isDebugEnabled()) {
-			_log.info(
+			_log.debug(
 				"MY CUSTOM DISPLAY CONTEXT FACTORY - DL VIEW FILE VERSION");
 		}
 
