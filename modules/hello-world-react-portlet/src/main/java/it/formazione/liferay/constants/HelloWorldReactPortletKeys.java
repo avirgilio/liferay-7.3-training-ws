@@ -1,7 +1,7 @@
 package it.formazione.liferay.constants;
 
 /**
- * @author batman
+ * @author Alessandro Virgilio
  */
 public class HelloWorldReactPortletKeys {
 
