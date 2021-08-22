@@ -1,4 +1,4 @@
-package it.formazione.liferay.portlet.portlet.actions;
+package it.formazione.liferay.portlet.actions;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import it.formazione.liferay.portlet.constants.HelloWorldReactPortletKeys;
+import it.formazione.liferay.constants.HelloWorldReactPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.ResourceRequest;

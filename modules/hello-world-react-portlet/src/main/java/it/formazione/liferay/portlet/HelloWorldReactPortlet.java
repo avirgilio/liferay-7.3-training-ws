@@ -1,9 +1,9 @@
-package it.formazione.liferay.portlet.portlet;
+package it.formazione.liferay.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.util.WebKeys;
-import it.formazione.liferay.portlet.constants.HelloWorldReactPortletKeys;
-import it.formazione.liferay.portlet.portlet.display.context.ViewDisplayContext;
+import it.formazione.liferay.constants.HelloWorldReactPortletKeys;
+import it.formazione.liferay.portlet.display.context.ViewDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;

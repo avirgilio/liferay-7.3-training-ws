@@ -1,4 +1,4 @@
-package it.formazione.liferay.portlet.constants;
+package it.formazione.liferay.constants;
 
 /**
  * @author batman

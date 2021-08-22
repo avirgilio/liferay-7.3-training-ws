@@ -1,11 +1,11 @@
-package it.formazione.liferay.portlet.portlet.display.context;
+package it.formazione.liferay.portlet.display.context;
 
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.WebKeys;
-import it.formazione.liferay.portlet.constants.HelloWorldReactPortletKeys;
+import it.formazione.liferay.constants.HelloWorldReactPortletKeys;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
