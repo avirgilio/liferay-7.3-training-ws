@@ -5,7 +5,7 @@ import {createResourceURL, fetch, openToast } from 'frontend-js-web';
 
 import ClayButton from '@clayui/button';
 import ClayLayout from '@clayui/layout';
-import AppContext from '../../AppContext';
+import AppContext from '../../../AppContext';
 
 const UserInfoPanelBodyComponent = ({name, surname, age}) => {
 

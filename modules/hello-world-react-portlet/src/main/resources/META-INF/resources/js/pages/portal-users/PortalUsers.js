@@ -3,8 +3,8 @@ import React from 'react';
 import ClayTable from '@clayui/table';
 import ClayLayout from '@clayui/layout';
 
-import RowOptions from './components/RowOptions';
-import useLiferayServiceOrSessionStorage from '../hooks/useLiferayServiceOrSessionStorage';
+import RowOptions from './user-row-options/RowOptions';
+import useLiferayServiceOrSessionStorage from '../../hooks/useLiferayServiceOrSessionStorage';
 
 const UserRow = ({user}) => {
 	return (

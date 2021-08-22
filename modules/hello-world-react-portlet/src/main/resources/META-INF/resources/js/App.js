@@ -1,13 +1,12 @@
 import React from 'react';
 import {HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
-import DisplayUserInfoComponent from "./display-user-info/DisplayUserInfoComponent";
+import PortalUsers from "./pages/portal-users/PortalUsers";
+import UserDetail from "./pages/portal-users/user-detail/UserDetail";
+import DisplayUserInfoComponent from "./pages/display-user-info/DisplayUserInfoComponent";
+import NoAuthPage from "./pages/no-auth-page/NoAuthPage";
 
-import PortalUsers from "./portal-users/PortalUsers";
-import UserDetail from "./portal-users/components/user-detail/UserDetail";
-
-import NavBar from "./nav-bar/NavBar";
-import NoAuthPage from "./no-auth-page/NoAuthPage";
+import NavBar from "./components/NavBar";
 import AppContext from './AppContext';
 
 const ProtectedRoute = ({component: Component, ...rest}) => (

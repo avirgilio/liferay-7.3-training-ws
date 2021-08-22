@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 
 import ClayLayout from '@clayui/layout';
 import ClayAlert from '@clayui/alert';
-import AppContext from '../AppContext';
+import AppContext from '../../AppContext';
 
 const NoAuthPage = () => {
 

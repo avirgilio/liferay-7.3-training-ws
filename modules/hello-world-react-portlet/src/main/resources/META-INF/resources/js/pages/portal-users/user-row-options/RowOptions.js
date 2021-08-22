@@ -5,7 +5,7 @@ import ClayButton from '@clayui/button';
 import {ClayDropDownWithItems} from '@clayui/drop-down';
 import ClayIcon from '@clayui/icon';
 
-import AppContext from "../../AppContext";
+import AppContext from "../../../AppContext";
 
 function RowOptions({user}) {
 	const {spritemap} = useContext(AppContext);
