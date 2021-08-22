@@ -1,7 +1,7 @@
 import React from 'react';
 import { ClayInput } from '@clayui/form';
 
-export const InputField = ({ id, defaultValue, label }) => {
+export const DisabledInputField = ({ id, defaultValue, label }) => {
 	return (
 		<div class="mt-3">
 			<label htmlFor={id}> {label} </label>
@@ -10,7 +10,8 @@ export const InputField = ({ id, defaultValue, label }) => {
 				placeholder={`Insert ${label} here`}
 				type="text"
 				defaultValue={defaultValue}
-				disabled />
+				disabled 	
+			/>
 		</div>
 	);
 };

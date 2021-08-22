@@ -5,7 +5,7 @@ import {useParams, useHistory} from 'react-router-dom';
 import ClayLayout from '@clayui/layout';
 import ClayButton from '@clayui/button';
 import useLiferayServiceOrSessionStorage from '../../../hooks/useLiferayServiceOrSessionStorage';
-import { InputField } from '../../../components/InputField';
+import { DisabledInputField } from '../../../components/DisabledInputField';
 
 const UserDetail = () => {
 	const KEY_STORAGE_NAME = `portal-users-${Liferay.ThemeDisplay.getScopeGroupId()}`;
@@ -28,11 +28,11 @@ const UserDetail = () => {
 		<ClayLayout.ContainerFluid view>
 			<ClayLayout.Row justify="center">
 				<ClayLayout.Col size={8}>
-					<InputField id="firstName" defaultValue={user.firstName} label="Name" />
-					<InputField id="screenName" defaultValue={user.screenName} label="Screen Name" />
-					<InputField id="jobTitle" defaultValue={user.jobTitle} label="Job Title" />
-					<InputField id="emailAddress" defaultValue={user.emailAddress} label="Mail Address" />
-					<InputField id="lastName" defaultValue={user.lastName} label="Surname" />
+					<DisabledInputField id="firstName" defaultValue={user.firstName} label="Name" />
+					<DisabledInputField id="screenName" defaultValue={user.screenName} label="Screen Name" />
+					<DisabledInputField id="jobTitle" defaultValue={user.jobTitle} label="Job Title" />
+					<DisabledInputField id="emailAddress" defaultValue={user.emailAddress} label="Mail Address" />
+					<DisabledInputField id="lastName" defaultValue={user.lastName} label="Surname" />
 				</ClayLayout.Col>
 			</ClayLayout.Row>
 			<ClayLayout.Row justify="end">
