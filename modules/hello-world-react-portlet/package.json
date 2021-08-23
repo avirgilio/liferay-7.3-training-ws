@@ -21,8 +21,7 @@
 	},
 	"scripts": {
 		"build": "liferay-npm-scripts build",
-		"checkFormat": "liferay-npm-scripts check",
-		"format": "liferay-npm-scripts fix"
+		"checkFormat": "liferay-npm-scripts check"
 	},
 	"engines": {
 		"node": ">=12"
