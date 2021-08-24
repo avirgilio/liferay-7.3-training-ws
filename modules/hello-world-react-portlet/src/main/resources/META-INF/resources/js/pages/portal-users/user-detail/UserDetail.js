@@ -46,10 +46,13 @@ const UserDetail = () => {
   let { userId } = useParams();
   let history = useHistory();
 
-  const { valueFromCache, error } = useSessionStorage(KEY_STORAGE_NAME, () => {
-    let users = JSON.parse(sessionStorage.getItem(KEY_STORAGE_NAME));
-    return users.find((user) => user.userId == userId);
-  });
+  const { valueFromCache: user, error } = useSessionStorage(
+    KEY_STORAGE_NAME,
+    () => {
+      let users = JSON.parse(sessionStorage.getItem(KEY_STORAGE_NAME));
+      return users.find((user) => user.userId == userId);
+    }
+  );
 
   return (
     <ClayLayout.ContainerFluid view>
@@ -57,7 +60,7 @@ const UserDetail = () => {
         {error.hasError ? (
           <ErrorDiv errorMessage={error.errorMessage} />
         ) : (
-          <UserDetailRow user={valueFromCache} />
+          <UserDetailRow user={user} />
         )}
       </ClayLayout.Row>
       <ClayLayout.Row justify="end">
