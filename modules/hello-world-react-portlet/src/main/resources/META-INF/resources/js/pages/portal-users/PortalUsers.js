@@ -5,6 +5,7 @@ import ClayLayout from "@clayui/layout";
 
 import RowOptions from "./user-row-options/RowOptions";
 import useLiferayServiceOrSessionStorage from "../../hooks/useLiferayServiceOrSessionStorage";
+import { USERS_KEY_STORAGE } from "../../constants/SessionStorageConstants";
 
 const UserRow = ({ user }) => {
   return (
@@ -20,8 +21,6 @@ const UserRow = ({ user }) => {
 };
 
 const PortalUsers = () => {
-  const KEY_STORAGE_NAME = `portal-users-${Liferay.ThemeDisplay.getScopeGroupId()}`;
-
   const { data: portalUsers } = useLiferayServiceOrSessionStorage(
     "/user/get-group-users",
     [],
@@ -29,7 +28,7 @@ const PortalUsers = () => {
       groupId: Liferay.ThemeDisplay.getScopeGroupId(),
     },
     true,
-    KEY_STORAGE_NAME
+    USERS_KEY_STORAGE
   );
 
   return (

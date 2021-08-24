@@ -7,6 +7,7 @@ import ClayButton from "@clayui/button";
 import { DisabledInputField } from "../../../components/DisabledInputField";
 import useSessionStorage from "../../../hooks/useSessionStorage";
 import { ErrorDiv } from "../../../components/ErrorDiv";
+import { USERS_KEY_STORAGE } from "../../../constants/SessionStorageConstants";
 
 const UserDetailRow = ({ user }) => {
   return (
@@ -41,15 +42,13 @@ const UserDetailRow = ({ user }) => {
 };
 
 const UserDetail = () => {
-  const KEY_STORAGE_NAME = `portal-users-${Liferay.ThemeDisplay.getScopeGroupId()}`;
-
   let { userId } = useParams();
   let history = useHistory();
 
   const { valueFromCache: user, error } = useSessionStorage(
-    KEY_STORAGE_NAME,
+    USERS_KEY_STORAGE,
     () => {
-      let users = JSON.parse(sessionStorage.getItem(KEY_STORAGE_NAME));
+      let users = JSON.parse(sessionStorage.getItem(USERS_KEY_STORAGE));
       return users.find((user) => user.userId == userId);
     }
   );
