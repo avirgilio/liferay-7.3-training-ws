@@ -3,11 +3,11 @@ import React from "react";
 import { useParams, useHistory } from "react-router-dom";
 
 import ClayLayout from "@clayui/layout";
-import ClayButton from "@clayui/button";
 import { DisabledInputField } from "../../../components/DisabledInputField";
 import useSessionStorage from "../../../hooks/useSessionStorage";
 import { ErrorDiv } from "../../../components/ErrorDiv";
 import { USERS_KEY_STORAGE } from "../../../constants/SessionStorageConstants";
+import Button from "../../../components/Button";
 
 const UserDetailRow = ({ user }) => {
   return (
@@ -64,13 +64,12 @@ const UserDetail = () => {
       </ClayLayout.Row>
       <ClayLayout.Row justify="end">
         <ClayLayout.Col size={8}>
-          <ClayButton
-            className="mt-5"
+          <Button
             displayType="secondary"
-            onClick={() => history.push("/portal-users")}
-          >
-            {Liferay.Language.get("go-back-to-portal-users")}
-          </ClayButton>
+            handleOnClick={() => history.push("/portal-users")}
+            text={Liferay.Language.get("go-back-to-portal-users")}
+            className="mt-5"
+          />
         </ClayLayout.Col>
       </ClayLayout.Row>
     </ClayLayout.ContainerFluid>

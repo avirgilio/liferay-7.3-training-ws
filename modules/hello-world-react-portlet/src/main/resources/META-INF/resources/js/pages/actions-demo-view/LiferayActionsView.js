@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import ClayLayout from "@clayui/layout";
-import ClayButton from "@clayui/button";
 
 import LiferayActions from "../../liferay-actions/LiferayActions";
 import AppContext from "../../AppContext";
@@ -12,6 +11,8 @@ import {
   MY_DEMO_RENDER_COMMAND_ID,
   MY_DEMO_RESOURCE_COMMAND_ID,
 } from "../../constants/LiferayMVCActionCommandConstants";
+
+import Button from "../../components/Button";
 
 export const LiferayActionsView = () => {
   const { baseResourceURL, baseActionURL, baseRenderURL } = useContext(
@@ -87,23 +88,23 @@ export const LiferayActionsView = () => {
     <ClayLayout.ContainerFluid>
       <ClayLayout.Row justify="center">
         <ClayLayout.Col size={8}>
-          <ClayButton
+          <Button
             displayType="success"
-            onClick={() => callResourceCommand()}
-          >
-            {"Call Resource Command!"}
-          </ClayButton>
+            handleOnClick={callResourceCommand}
+            text="Call Resource Command"
+          />
 
-          <ClayButton
+          <Button
             displayType="secondary"
-            onClick={() => callActionCommand()}
-          >
-            {"Call Action Command!"}
-          </ClayButton>
+            handleOnClick={callActionCommand}
+            text="Call Action Command"
+          />
 
-          <ClayButton displayType="danger" onClick={() => callRenderCommand()}>
-            {"Call Render Command!"}
-          </ClayButton>
+          <Button
+            displayType="danger"
+            handleOnClick={callRenderCommand}
+            text="Call Render Command"
+          />
         </ClayLayout.Col>
       </ClayLayout.Row>
     </ClayLayout.ContainerFluid>

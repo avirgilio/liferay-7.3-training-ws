@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 import { openToast } from "frontend-js-web";
 
-import ClayButton from "@clayui/button";
 import ClayLayout from "@clayui/layout";
 import AppContext from "../../../AppContext";
 import LiferayActions from "../../../liferay-actions/LiferayActions";
 import { MY_DEMO_RESOURCE_COMMAND_ID } from "../../../constants/LiferayMVCActionCommandConstants";
+import Button from "../../../components/Button";
 
 const UserInfoPanelBodyComponent = ({ name, surname, age }) => {
   const { baseResourceURL } = useContext(AppContext);
@@ -51,12 +51,11 @@ const UserInfoPanelBodyComponent = ({ name, surname, age }) => {
           <h2>{getCurrentUserInfo()}</h2>
         </ClayLayout.Col>
         <ClayLayout.Col size={6}>
-          <ClayButton
+          <Button
             displayType="primary"
-            onClick={() => handleClick(name, surname, age)}
-          >
-            {Liferay.Language.get("info-panel-button-label")}
-          </ClayButton>
+            handleOnClick={() => handleClick(name, surname, age)}
+            text={Liferay.Language.get("info-panel-button-label")}
+          />
         </ClayLayout.Col>
       </ClayLayout.Row>
     </ClayLayout.ContainerFluid>
