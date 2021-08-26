@@ -5,7 +5,7 @@ import ClayLayout from "@clayui/layout";
 import UserInfoPanelBodyComponent from "./components/UserInfoPanelBodyComponent";
 import AppContext from "../../AppContext";
 
-export default ({ name, surname }) => {
+const DisplayUserInfoComponent = ({ name, surname }) => {
   const { spritemap } = useContext(AppContext);
 
   return (
@@ -28,3 +28,5 @@ export default ({ name, surname }) => {
     </ClayLayout.ContainerFluid>
   );
 };
+
+export default DisplayUserInfoComponent;

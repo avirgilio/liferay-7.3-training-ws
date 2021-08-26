@@ -14,7 +14,7 @@ import {
 
 import Button from "../../components/Button";
 
-export const LiferayActionsView = () => {
+const LiferayActionsView = () => {
   const { baseResourceURL, baseActionURL, baseRenderURL } = useContext(
     AppContext
   );
@@ -110,3 +110,5 @@ export const LiferayActionsView = () => {
     </ClayLayout.ContainerFluid>
   );
 };
+
+export default LiferayActionsView;
