@@ -42,6 +42,14 @@ export default withRouter(({ location }) => {
               {Liferay.Language.get("portal-users-component-label")}
             </ClayLink>
           </ClayNavigationBar.Item>
+          <ClayNavigationBar.Item
+            active={isActive(`/action-commands`)}
+            onClick={() => history.push("/action-commands")}
+          >
+            <ClayLink className="nav-link" displayType="unstyled">
+              {Liferay.Language.get("action-commands-demo-label")}
+            </ClayLink>
+          </ClayNavigationBar.Item>
         </ClayNavigationBar>
       </ClayLayout.Row>
     </ClayLayout.ContainerFluid>

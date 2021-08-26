@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import { openToast } from "frontend-js-web";
@@ -11,10 +11,6 @@ import { MY_DEMO_RESOURCE_COMMAND_ID } from "../../../constants/LiferayMVCAction
 
 const UserInfoPanelBodyComponent = ({ name, surname, age }) => {
   const { baseResourceURL } = useContext(AppContext);
-
-  useEffect(() => {
-    console.log(`SHOW USER: ${name} ${surname}`);
-  }, [name, surname, age]);
 
   const handleClick = (name, surname) => {
     // p_p_auth = Liferay.authToken

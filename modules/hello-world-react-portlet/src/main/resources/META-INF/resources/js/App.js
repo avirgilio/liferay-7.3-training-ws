@@ -13,6 +13,7 @@ import NoAuthPage from "./pages/no-auth-page/NoAuthPage";
 
 import NavBar from "./components/NavBar";
 import AppContext from "./AppContext";
+import { LiferayActionsView } from "./pages/actions-demo-view/LiferayActionsView";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -51,6 +52,7 @@ export default function ({ context, displayUserInfoProps }) {
           />
 
           <Route component={NoAuthPage} exact path="/no-auth" />
+          <Route component={LiferayActionsView} exact path="/action-commands" />
         </Switch>
       </Router>
     </AppContext.Provider>

@@ -23,7 +23,7 @@ import java.util.Set;
 		"mvc.command.name=myResourceCommand"
 	},
 	service = MVCResourceCommand.class)
-public class DemoResourceCommandMVCResourceCommand
+public class DemoMVCResourceCommand
 	extends BaseMVCResourceCommand {
 
 	@Override
@@ -46,6 +46,10 @@ public class DemoResourceCommandMVCResourceCommand
 		String surname = ParamUtil.getString(resourceRequest, "surname");
 		String age = ParamUtil.getString(resourceRequest, "age");
 
+		_log.info("CALLED RESOURCE COMMAND!");
+		_log.info(
+			"VALUES: " + StringUtil.merge(new String[] {name, surname, age}));
+
 		JSONObject values = JSONFactoryUtil.createJSONObject();
 
 		values.put("age", age);
@@ -62,5 +66,5 @@ public class DemoResourceCommandMVCResourceCommand
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		DemoResourceCommandMVCResourceCommand.class);
+		DemoMVCResourceCommand.class);
 }

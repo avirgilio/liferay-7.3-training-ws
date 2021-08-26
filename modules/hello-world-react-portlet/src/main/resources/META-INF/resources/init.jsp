@@ -12,6 +12,7 @@
 <%@ page import="it.formazione.liferay.portlet.display.context.ViewDisplayContext" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
 
-<liferay-theme:defineObjects />
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 
+<liferay-theme:defineObjects />
 <portlet:defineObjects />

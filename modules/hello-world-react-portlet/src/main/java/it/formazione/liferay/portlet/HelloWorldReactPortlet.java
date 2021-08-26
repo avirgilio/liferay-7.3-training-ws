@@ -39,7 +39,7 @@ public class HelloWorldReactPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 
 		ViewDisplayContext viewDisplayContext =
-			new ViewDisplayContext(renderRequest);
+			new ViewDisplayContext(renderRequest, renderResponse);
 
 		renderRequest.setAttribute(
 			WebKeys.PORTLET_DISPLAY_CONTEXT, viewDisplayContext);

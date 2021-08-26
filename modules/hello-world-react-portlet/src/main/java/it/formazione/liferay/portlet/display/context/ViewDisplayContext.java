@@ -9,13 +9,17 @@ import it.formazione.liferay.constants.HelloWorldReactPortletKeys;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ViewDisplayContext {
 
-    public ViewDisplayContext(RenderRequest renderRequest) {
+    public ViewDisplayContext(
+        RenderRequest renderRequest, RenderResponse renderResponse) {
+
         _renderRequest = renderRequest;
+        _renderResponse = renderResponse;
     }
 
     public Map<String, Object> getReactData() {
@@ -29,6 +33,8 @@ public class ViewDisplayContext {
         HashMap<String, Object> contextMap = HashMapBuilder
             .<String, Object>put("spritemap", _getClaySpriteMap())
             .put("baseResourceURL", _getPortletBaseResourceURL().toString())
+            .put("baseActionURL", _getPortletBaseActionURL().toString())
+            .put("baseRenderURL", _getPortletBaseRenderURL().toString())
             .build();
 
         return HashMapBuilder
@@ -37,11 +43,23 @@ public class ViewDisplayContext {
             .build();
     }
 
+    private LiferayPortletURL _getPortletBaseRenderURL() {
+        return _renderResponse.createRenderURL();
+    }
+
+    private LiferayPortletURL _getPortletBaseActionURL() {
+        return _getPortletBaseURL(PortletRequest.ACTION_PHASE);
+    }
+
     private LiferayPortletURL _getPortletBaseResourceURL()  {
+        return _getPortletBaseURL(PortletRequest.RESOURCE_PHASE);
+    }
+
+    private LiferayPortletURL _getPortletBaseURL(String portletRequest)  {
 
         return PortletURLFactoryUtil.create(
-              _renderRequest, HelloWorldReactPortletKeys.HELLO_WORLD_REACT,
-              _getThemeDisplay().getPlid(), PortletRequest.RESOURCE_PHASE);
+            _renderRequest, HelloWorldReactPortletKeys.HELLO_WORLD_REACT,
+            _getThemeDisplay().getPlid(), portletRequest);
     }
 
     private String _getClaySpriteMap() {
@@ -53,5 +71,6 @@ public class ViewDisplayContext {
             _renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
+    private final RenderResponse _renderResponse;
     private final RenderRequest _renderRequest;
 }
