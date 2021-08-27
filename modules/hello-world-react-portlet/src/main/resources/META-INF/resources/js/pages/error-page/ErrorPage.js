@@ -11,7 +11,7 @@ const ErrorPage = ({ errorMessage, errorStackTrace }) => {
   return (
     <ClayLayout.ContainerFluid view>
       <ClayLayout.Row justify="center">
-        <h2>Error while loading app...</h2>
+        <h2>Error!</h2>
       </ClayLayout.Row>
 
       <ClayLayout.Row justify="center">
