@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import {
   HashRouter as Router,
   Route,
@@ -6,14 +6,11 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import PortalUsers from "./pages/portal-users/PortalUsers";
-import UserDetail from "./pages/portal-users/user-detail/UserDetail";
-import DisplayUserInfoComponent from "./pages/display-user-info/DisplayUserInfoComponent";
-import NoAuthPage from "./pages/no-auth-page/NoAuthPage";
+import ClayLoadingIndicator from "@clayui/loading-indicator";
 
 import NavBar from "./components/NavBar";
 import AppContext from "./AppContext";
-import { LiferayActionsView } from "./pages/actions-demo-view/LiferayActionsView";
+import MyErrorBoundary from "./components/MyErrorBoundary";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -29,32 +26,99 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
 );
 
 export default function ({ context, displayUserInfoProps }) {
+  const PortalUsers = lazy(
+    () =>
+      new Promise((resolve) => {
+        console.log("Loading portal users component");
+
+        import("./pages/portal-users/PortalUsers").then((module) =>
+          resolve(module)
+        );
+      })
+  );
+
+  const UserDetail = lazy(
+    () =>
+      new Promise((resolve) => {
+        console.log("Loading user detail component");
+
+        import("./pages/portal-users/user-detail/UserDetail").then((module) =>
+          resolve(module)
+        );
+      })
+  );
+
+  const DisplayUserInfoComponent = lazy(
+    () =>
+      new Promise((resolve) => {
+        console.log("Loading display user info component");
+
+        import(
+          "./pages/display-user-info/DisplayUserInfoComponent"
+        ).then((module) => resolve(module));
+      })
+  );
+
+  const NoAuthPage = lazy(
+    () =>
+      new Promise((resolve) => {
+        console.log("Loading no auth page component");
+
+        import("./pages/no-auth-page/NoAuthPage").then((module) =>
+          resolve(module)
+        );
+      })
+  );
+
+  const LiferayActionsView = lazy(
+    () =>
+      new Promise((resolve) => {
+        console.log("Loading action view component");
+
+        import("./pages/actions-demo-view/LiferayActionsView").then((module) =>
+          resolve(module)
+        );
+      })
+  );
+
   return (
     <AppContext.Provider value={context}>
-      <Router>
-        <NavBar />
+      <MyErrorBoundary>
+        <Suspense fallback={<ClayLoadingIndicator />}>
+          <Router>
+            <NavBar />
 
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <DisplayUserInfoComponent {...displayUserInfoProps} />
-            )}
-          />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <DisplayUserInfoComponent {...displayUserInfoProps} />
+                )}
+              />
 
-          <ProtectedRoute component={PortalUsers} exact path="/portal-users" />
+              <ProtectedRoute
+                component={PortalUsers}
+                exact
+                path="/portal-users"
+              />
 
-          <ProtectedRoute
-            component={UserDetail}
-            exact
-            path="/portal-users/view/:userId"
-          />
+              <ProtectedRoute
+                component={UserDetail}
+                exact
+                path="/portal-users/view/:userId"
+              />
 
-          <Route component={NoAuthPage} exact path="/no-auth" />
-          <Route component={LiferayActionsView} exact path="/action-commands" />
-        </Switch>
-      </Router>
+              <Route component={NoAuthPage} exact path="/no-auth" />
+              <Route
+                component={LiferayActionsView}
+                exact
+                path="/action-commands"
+              />
+            </Switch>
+          </Router>
+        </Suspense>
+      </MyErrorBoundary>
     </AppContext.Provider>
   );
 }
