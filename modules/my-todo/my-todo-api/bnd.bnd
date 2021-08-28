@@ -1,0 +1,6 @@
+Bundle-Name: my-todo-api
+Bundle-SymbolicName: my.todo.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	my.todo.dto.v1_0,\
+	my.todo.resource.v1_0

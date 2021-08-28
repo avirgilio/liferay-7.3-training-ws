@@ -1,0 +1,4 @@
+Bundle-Name: my-todo-test
+Bundle-SymbolicName: my.todo.test
+Bundle-Version: 1.0.0
+-includeresource: my.todo.client.jar=../my-todo-client/build/libs/my.todo.client-1.0.0.jar;lib:=true

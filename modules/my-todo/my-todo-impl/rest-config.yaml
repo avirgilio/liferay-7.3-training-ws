@@ -1,0 +1,9 @@
+apiDir: "../my-todo-api/src/main/java"
+apiPackagePath: "it.formazione.liferay.rest.graph.todo"
+application:
+    baseURI: "/my-todo"
+    className: "MyTodoApplication"
+    name: "MyTodo"
+author: "Virgilio Alessandro"
+clientDir: "../my-todo-client/src/main/java"
+testDir: "../my-todo-test/src/testIntegration/java"
