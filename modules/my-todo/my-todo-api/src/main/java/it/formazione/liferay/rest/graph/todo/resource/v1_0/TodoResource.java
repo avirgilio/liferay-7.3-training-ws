@@ -40,7 +40,7 @@ public interface TodoResource {
 	public Response deleteTodoBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public void getTodo(Integer todoId) throws Exception;
+	public Todo getTodo(Integer todoId) throws Exception;
 
 	public Todo putTodo(Integer entityId, Todo todo) throws Exception;
 

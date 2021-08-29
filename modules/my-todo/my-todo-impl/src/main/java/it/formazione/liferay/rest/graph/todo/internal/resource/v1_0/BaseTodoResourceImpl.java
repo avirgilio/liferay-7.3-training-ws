@@ -131,10 +131,12 @@ public abstract class BaseTodoResourceImpl
 	@Path("/todos/{todoId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Todo")})
-	public void getTodo(
+	public Todo getTodo(
 			@NotNull @Parameter(hidden = true) @PathParam("todoId") Integer
 				todoId)
 		throws Exception {
+
+		return new Todo();
 	}
 
 	/**
@@ -340,7 +342,7 @@ public abstract class BaseTodoResourceImpl
 		throws Exception {
 
 		for (Todo todo : todos) {
-			putTodo(entityId, todo);
+			putTodo(todo.getId(), todo);
 		}
 	}
 
@@ -401,14 +403,14 @@ public abstract class BaseTodoResourceImpl
 			ownerId, permissionName, siteId, contextUriInfo);
 	}
 
-	protected Map<String, String> addAction(
+	/* protected Map<String, String> addAction(
 		String actionName, Long id, String methodName,
 		ModelResourcePermission modelResourcePermission) {
 
 		return ActionUtil.addAction(
 			actionName, getClass(), id, methodName, contextScopeChecker,
 			modelResourcePermission, contextUriInfo);
-	}
+	}*/
 
 	protected Map<String, String> addAction(
 		String actionName, String methodName, String permissionName,

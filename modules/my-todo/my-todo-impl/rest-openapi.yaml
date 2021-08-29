@@ -34,9 +34,14 @@ paths:
             responses:
                 200:
                     content:
-                        application/json: {}
-                        application/xml: {}
-                    description: "Get a Todo"
+                      application/json:
+                        schema:
+                          $ref: "#/components/schemas/Todo"
+                          description: "Get a Todo"
+                      application/xml:
+                        schema:
+                          $ref: "#/components/schemas/Todo"
+                          description: "Get a Todo"
             tags: ["Todo"]
         delete:
             operationId: deleteTodo

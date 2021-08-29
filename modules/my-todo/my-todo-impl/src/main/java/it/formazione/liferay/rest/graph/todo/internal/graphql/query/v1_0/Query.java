@@ -44,10 +44,10 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {todo(todoId: ___){}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {todo(todoId: ___){description, completed, id}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField
-	public void todo(@GraphQLName("todoId") Integer todoId) throws Exception {
+	public Todo todo(@GraphQLName("todoId") Integer todoId) throws Exception {
 		return _applyComponentServiceObjects(
 			_todoResourceComponentServiceObjects,
 			this::_populateResourceContext,

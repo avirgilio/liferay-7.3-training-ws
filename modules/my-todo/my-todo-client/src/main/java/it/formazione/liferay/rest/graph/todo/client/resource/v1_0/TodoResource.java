@@ -37,7 +37,7 @@ public interface TodoResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public void getTodo(Integer todoId) throws Exception;
+	public Todo getTodo(Integer todoId) throws Exception;
 
 	public HttpInvoker.HttpResponse getTodoHttpResponse(Integer todoId)
 		throws Exception;
@@ -292,7 +292,7 @@ public interface TodoResource {
 			return httpInvoker.invoke();
 		}
 
-		public void getTodo(Integer todoId) throws Exception {
+		public Todo getTodo(Integer todoId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = getTodoHttpResponse(todoId);
 
 			String content = httpResponse.getContent();
@@ -321,7 +321,7 @@ public interface TodoResource {
 			}
 
 			try {
-				return;
+				return TodoSerDes.toDTO(content);
 			}
 			catch (Exception e) {
 				_logger.log(

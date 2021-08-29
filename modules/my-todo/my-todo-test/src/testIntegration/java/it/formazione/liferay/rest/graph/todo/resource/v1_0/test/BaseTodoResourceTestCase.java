@@ -230,18 +230,58 @@ public abstract class BaseTodoResourceTestCase {
 
 	@Test
 	public void testGetTodo() throws Exception {
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		Todo todo = testGetTodo_addTodo();
+		Todo postTodo = testGetTodo_addTodo();
 
-		assertHttpResponseStatusCode(
-			204, todoResource.getTodoHttpResponse(todo.getId()));
+		Todo getTodo = todoResource.getTodo(postTodo.getId());
 
-		assertHttpResponseStatusCode(404, todoResource.getTodoHttpResponse(0));
+		assertEquals(postTodo, getTodo);
+		assertValid(getTodo);
 	}
 
 	protected Todo testGetTodo_addTodo() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetTodo() throws Exception {
+		Todo todo = testGraphQLTodo_addTodo();
+
+		Assert.assertTrue(
+			equals(
+				todo,
+				TodoSerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"todo",
+								new HashMap<String, Object>() {
+									{
+										put("todoId", todo.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/todo"))));
+	}
+
+	@Test
+	public void testGraphQLGetTodoNotFound() throws Exception {
+		Integer irrelevantTodoId = RandomTestUtil.randomInt();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"todo",
+						new HashMap<String, Object>() {
+							{
+								put("todoId", irrelevantTodoId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
 	}
 
 	@Test
