@@ -1,0 +1,10 @@
+Bundle-Name: my-todo-db-api
+Bundle-SymbolicName: my.todo.db.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	my.todo.db.exception,\
+	my.todo.db.model,\
+	my.todo.db.service,\
+	my.todo.db.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../my-todo-db-service/service.xml

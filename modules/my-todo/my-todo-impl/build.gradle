@@ -14,6 +14,7 @@ apply plugin: "com.liferay.portal.tools.rest.builder"
 
 dependencies {
 	compileOnly project(":modules:my-todo:my-todo-api")
+	compileOnly project(":modules:my-todo:my-todo-db-api")
 
 	compileOnly group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.10.3"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function"
