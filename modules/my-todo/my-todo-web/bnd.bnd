@@ -1,0 +1,5 @@
+Bundle-Name: My Todo Web
+Bundle-SymbolicName: my.todo.web
+Bundle-Version: 1.0.0
+-includeresource: META-INF/resources=build/node/packageRunBuild/resources
+Web-ContextPath: /my-todo-web

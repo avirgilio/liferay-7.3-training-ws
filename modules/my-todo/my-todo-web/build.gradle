@@ -1,0 +1,13 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.react"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay"
+	cssBuilder group: "com.liferay", name: "com.liferay.css.builder", version: "3.0.2"
+}
+
+node {
+	nodeVersion = '12.14.1'
+	npmVersion = '6.13.4'
+	download = true
+}
