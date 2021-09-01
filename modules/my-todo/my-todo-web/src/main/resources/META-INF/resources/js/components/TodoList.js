@@ -14,7 +14,11 @@ const TodoList = () => {
   return (
     <ClayList showQuickActionsOnHover>
       {data.todos.items.map((todo) => (
-        <TodoItem title={todo.description} completed={todo.completed} />
+        <TodoItem
+          key={todo.id}
+          title={todo.description}
+          completed={todo.completed}
+        />
       ))}
     </ClayList>
   );

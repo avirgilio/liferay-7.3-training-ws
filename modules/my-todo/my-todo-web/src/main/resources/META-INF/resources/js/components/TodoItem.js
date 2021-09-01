@@ -6,11 +6,24 @@ export const TodoItem = ({ title, completed = false }) => {
   return (
     <ClayList.Item flex>
       <ClayList.ItemField expand>
-        <ClayList.ItemTitle> {title}</ClayList.ItemTitle>
+        <ClayList.ItemTitle className={completed && "completed"}>
+          {title}
+        </ClayList.ItemTitle>
       </ClayList.ItemField>
       <ClayList.ItemField>
         <ClayList.QuickActionMenu>
-          <TodoQuickAction symbol="check" handleClick={() => alert("Check!")} />
+          {completed ? (
+            <TodoQuickAction
+              symbol="times"
+              handleClick={() => alert("Unchecked!")}
+            />
+          ) : (
+            <TodoQuickAction
+              symbol="check"
+              handleClick={() => alert("Checked!")}
+            />
+          )}
+          .
         </ClayList.QuickActionMenu>
       </ClayList.ItemField>
     </ClayList.Item>

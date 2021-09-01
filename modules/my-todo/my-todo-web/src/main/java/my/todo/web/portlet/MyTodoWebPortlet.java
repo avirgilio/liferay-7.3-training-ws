@@ -29,6 +29,8 @@ import java.io.IOException;
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + MyTodoWebPortletKeys.MY_TODO_WEB,
 		"javax.portlet.resource-bundle=content.Language",
+		"com.liferay.portlet.css-class-wrapper=my-todo-web",
+		"com.liferay.portlet.header-portlet-css=/css/main.css",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
