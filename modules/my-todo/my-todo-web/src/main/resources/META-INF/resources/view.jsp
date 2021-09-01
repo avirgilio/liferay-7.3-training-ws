@@ -1,5 +1,9 @@
 <%@ include file="/init.jsp" %>
 
+<%
+	TodoAppDisplayContext displayContext = (TodoAppDisplayContext) request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+%>
+
 <div class="container">
 	<div class="row justify-content-md-center">
 		<div class="col-md-auto">
@@ -10,6 +14,7 @@
 
 <div id="todo-component-wrapper">
 	<react:component
-		module="js/App"
+		module="js/TodoApp"
+		props="<%= displayContext.getReactProps() %>"
 	/>
 </div>

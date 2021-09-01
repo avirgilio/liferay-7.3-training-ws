@@ -9,6 +9,9 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ taglib uri="http://liferay.com/tld/react" prefix="react" %>
 
+<%@ page import="my.todo.web.portlet.display.context.TodoAppDisplayContext" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects />

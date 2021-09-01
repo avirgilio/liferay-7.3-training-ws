@@ -1,12 +1,19 @@
 package my.todo.web.portlet;
 
+import com.liferay.portal.kernel.util.WebKeys;
 import my.todo.web.constants.MyTodoWebPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
+import my.todo.web.portlet.display.context.TodoAppDisplayContext;
 import org.osgi.service.component.annotations.Component;
+
+import java.io.IOException;
 
 /**
  * @author alessandro.virgilio
@@ -27,4 +34,18 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class MyTodoWebPortlet extends MVCPortlet {
+
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		TodoAppDisplayContext displayContext =
+			new TodoAppDisplayContext(renderRequest);
+
+		renderRequest.setAttribute(
+			WebKeys.PORTLET_DISPLAY_CONTEXT, displayContext);
+
+		super.render(renderRequest, renderResponse);
+	}
 }
