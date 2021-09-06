@@ -45,7 +45,7 @@ public class TodoLocalServiceImpl extends TodoLocalServiceBaseImpl {
 
 	@Override
 	public Todo createTodo(
-			long userId, long groupId, String description)
+			long userId, long groupId, String description, boolean completed)
 		throws PortalException {
 
 		User user = userLocalService.getUser(userId);
@@ -67,7 +67,7 @@ public class TodoLocalServiceImpl extends TodoLocalServiceBaseImpl {
 
 		// CUSTOM FIELD
 
-		todo.setCompleted(false);
+		todo.setCompleted(completed);
 		todo.setDescription(description);
 
 		return todoPersistence.update(todo);

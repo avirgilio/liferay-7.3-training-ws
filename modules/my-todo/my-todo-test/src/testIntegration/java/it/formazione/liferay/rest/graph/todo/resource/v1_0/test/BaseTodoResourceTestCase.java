@@ -295,7 +295,7 @@ public abstract class BaseTodoResourceTestCase {
 		assertEquals(randomTodo, putTodo);
 		assertValid(putTodo);
 
-		Todo getTodo = todoResource.getTodo();
+		Todo getTodo = todoResource.getTodo(randomTodo.getId());
 
 		assertEquals(randomTodo, getTodo);
 		assertValid(getTodo);

@@ -93,7 +93,8 @@ public interface TodoLocalService
 	@Transactional(enabled = false)
 	public Todo createTodo(long todoId);
 
-	public Todo createTodo(long userId, long groupId, String description)
+	public Todo createTodo(
+			long userId, long groupId, String description, boolean completed)
 		throws PortalException;
 
 	/**

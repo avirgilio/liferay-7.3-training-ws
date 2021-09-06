@@ -38,7 +38,9 @@ public class TodoResourceImpl extends BaseTodoResourceImpl {
 		my.todo.db.model.Todo createdTodo = _todoLocalService.createTodo(
 			contextUser.getUserId(),
 			contextCompany.getGroupId(),
-			todo.getDescription());
+			todo.getDescription(),
+			todo.getCompleted()
+		);
 
 		return _toDTO(createdTodo);
 	}

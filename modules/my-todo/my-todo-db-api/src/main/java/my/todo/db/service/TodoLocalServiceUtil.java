@@ -79,10 +79,11 @@ public class TodoLocalServiceUtil {
 		return getService().createTodo(todoId);
 	}
 
-	public static Todo createTodo(long userId, long groupId, String description)
+	public static Todo createTodo(
+			long userId, long groupId, String description, boolean completed)
 		throws PortalException {
 
-		return getService().createTodo(userId, groupId, description);
+		return getService().createTodo(userId, groupId, description, completed);
 	}
 
 	/**

@@ -69,10 +69,11 @@ public class TodoLocalServiceWrapper
 
 	@Override
 	public my.todo.db.model.Todo createTodo(
-			long userId, long groupId, String description)
+			long userId, long groupId, String description, boolean completed)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _todoLocalService.createTodo(userId, groupId, description);
+		return _todoLocalService.createTodo(
+			userId, groupId, description, completed);
 	}
 
 	/**

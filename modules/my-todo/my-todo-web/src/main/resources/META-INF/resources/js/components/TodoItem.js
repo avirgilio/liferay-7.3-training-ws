@@ -1,8 +1,39 @@
 import React from "react";
 import ClayList from "@clayui/list";
 import TodoQuickAction from "./TodoQuickAction";
+import { DELETE_TODO, UPDATE_TODO } from "../graphql/mutations/todoMutations";
+import { GET_TODOS_QUERY } from "../graphql/queries/todoQueries";
+import { useMutation } from "@apollo/client";
 
-export const TodoItem = ({ title, completed = false }) => {
+export const TodoItem = ({ id, title, completed }) => {
+  const [deleteTodo] = useMutation(DELETE_TODO, {
+    refetchQueries: [GET_TODOS_QUERY, "getTodos"],
+  });
+
+  const [updateTodo] = useMutation(UPDATE_TODO, {
+    refetchQueries: [GET_TODOS_QUERY, "getTodos"],
+  });
+
+  const deleteTodoActionClick = () => {
+    deleteTodo({
+      variables: {
+        todoId: id,
+      },
+    });
+  };
+
+  const updateTodoActionClick = () => {
+    updateTodo({
+      variables: {
+        todoId: id,
+        description: title,
+        completed: !completed,
+      },
+    });
+  };
+
+  const completedSymbol = completed ? "times" : "check";
+
   return (
     <ClayList.Item flex>
       <ClayList.ItemField expand>
@@ -12,17 +43,14 @@ export const TodoItem = ({ title, completed = false }) => {
       </ClayList.ItemField>
       <ClayList.ItemField>
         <ClayList.QuickActionMenu>
-          {completed ? (
-            <TodoQuickAction
-              symbol="times"
-              handleClick={() => alert("Unchecked!")}
-            />
-          ) : (
-            <TodoQuickAction
-              symbol="check"
-              handleClick={() => alert("Checked!")}
-            />
-          )}
+          <TodoQuickAction
+            symbol={completedSymbol}
+            handleClick={updateTodoActionClick}
+          />
+          <TodoQuickAction
+            symbol="times-circle"
+            handleClick={deleteTodoActionClick}
+          />
           .
         </ClayList.QuickActionMenu>
       </ClayList.ItemField>

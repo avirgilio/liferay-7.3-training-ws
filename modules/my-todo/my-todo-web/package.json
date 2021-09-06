@@ -2,9 +2,12 @@
   "name": "my-todo-web",
   "dependencies": {
     "@apollo/client": "^3.4.10",
+    "@clayui/button": "^3.32.0",
+    "@clayui/form": "^3.35.2",
     "@clayui/layout": "^3.32.0",
     "@clayui/list": "^3.35.2",
     "@clayui/loading-indicator": "^3.32.0",
+    "@clayui/modal": "^3.35.2",
     "graphql": "^15.5.2",
     "react": "16.12.0"
   },
