@@ -1,0 +1,128 @@
+components:
+  schemas:
+    Todo:
+      description: My Todo Entity
+      properties:
+        description:
+          description: The todo description.
+          type: string
+        completed:
+            description: If the todo is completed
+            type: boolean
+        id:
+          description: The todo ID.
+          type: integer
+      type: object
+info:
+    description: "MyTodo REST API"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: "MyTodo"
+    version: v1.0
+openapi: 3.0.1
+paths:
+    "/todos/{todoId}":
+        get:
+            operationId: getTodo
+            parameters:
+                - in: path
+                  name: todoId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    content:
+                      application/json:
+                        schema:
+                          $ref: "#/components/schemas/Todo"
+                          description: "Get a Todo"
+                      application/xml:
+                        schema:
+                          $ref: "#/components/schemas/Todo"
+                          description: "Get a Todo"
+            tags: ["Todo"]
+        delete:
+            operationId: deleteTodo
+            parameters:
+                - in: path
+                  name: todoId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description: "Delete a Todo"
+            tags: ["Todo"]
+        put:
+            operationId: putTodo
+            parameters:
+                - in: path
+                  name: entityId
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Todo"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Todo"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+                    description: ""
+            tags: ["Todo"]
+
+    "/todos":
+        get:
+            operationId: getTodosPage
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Todo"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Todo"
+                                type: array
+                    description: "Get Todos"
+            tags: ["Todo"]
+        post:
+            operationId: postTodo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Todo"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Todo"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Todo"
+                    description: "Add a Todo"
+            tags: ["Todo"]
+    

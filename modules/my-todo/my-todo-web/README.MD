@@ -1,0 +1,1 @@
+**MENU ENTRIES ICONS:** https://liferay.github.io/lexiconcss/content/icons-lexicon/

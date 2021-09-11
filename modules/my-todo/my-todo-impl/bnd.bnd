@@ -1,0 +1,3 @@
+Bundle-Name: my-todo-impl
+Bundle-SymbolicName: my.todo.impl
+Bundle-Version: 1.0.0

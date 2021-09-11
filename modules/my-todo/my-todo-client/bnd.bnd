@@ -1,0 +1,3 @@
+Bundle-Name: my-todo-client
+Bundle-SymbolicName: my.todo.client
+Bundle-Version: 1.0.0
