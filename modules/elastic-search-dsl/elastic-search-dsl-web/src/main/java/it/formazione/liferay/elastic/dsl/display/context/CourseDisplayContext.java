@@ -10,10 +10,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import it.formazione.liferay.elastic.dsl.constants.CourseDisplayConstants;
 import it.formazione.liferay.elastic.dsl.model.Course;
-import it.formazione.liferay.elastic.dsl.model.CourseSearchResult;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
 import it.formazione.liferay.elastic.dsl.search.CourseSearcherUtil;
 
@@ -56,7 +54,7 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 		String searchKeyword =
 			ParamUtil.getString(request, DisplayTerms.KEYWORDS);
 
-		_hasSearchKeyword = Validator.isNotNull(searchKeyword);
+		_searchKeyword = searchKeyword;
 
 		List<CourseType> courseTypeFilterList = new ArrayList<>();
 
@@ -69,16 +67,8 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 		CourseType[] courseTypesFilter = courseTypeFilterList.toArray(
 			new CourseType[0]);
 
-		_courseSearchResult =
-			CourseSearcherUtil.search(
+		return (int) CourseSearcherUtil.searchCount(
 				courseTypesFilter, searchKeyword, themeDisplay.getCompanyId());
-
-		return (int) _courseSearchResult.getSearchCount();
-	}
-
-	@Override
-	protected List<String> getHeaderNames() {
-		return Collections.singletonList("courses");
 	}
 
 	@Override
@@ -86,7 +76,20 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 			int start, int end, String orderByCol, boolean orderByType)
 		throws PortalException {
 
-		return _courseSearchResult.getSearchResults();
+		List<CourseType> courseTypeFilterList = new ArrayList<>();
+
+		if (_hasCourseTypeFilter) {
+			courseTypeFilterList.add(
+				CourseType.getCourseTypeFromValue(
+					Integer.parseInt(_filterCourseType)));
+		}
+
+		CourseType[] courseTypesFilter = courseTypeFilterList.toArray(
+			new CourseType[0]);
+
+		return CourseSearcherUtil.search(
+				courseTypesFilter, _searchKeyword,
+				themeDisplay.getCompanyId(), start, end).getSearchResults();
 	}
 
 	@Override
@@ -139,9 +142,6 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 	private static final String FILTER_COURSE_TYPE = "filter-course-type";
 	private String _filterCourseType;
 
-	private CourseSearchResult _courseSearchResult;
-
-	private boolean _hasSearchKeyword = false;
 	private String _searchKeyword;
 
 	private boolean _hasCourseTypeFilter = false;

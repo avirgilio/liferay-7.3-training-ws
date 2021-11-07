@@ -10,10 +10,18 @@ import org.osgi.util.tracker.ServiceTracker;
 public class CourseSearcherUtil {
 
 	public static CourseSearchResult search(
+			CourseType[] courseTypes, String keyword, long companyId,
+			int start, int end)
+		throws PortalException {
+
+		return getService().search(courseTypes, keyword, companyId, start, end);
+	}
+
+	public static long searchCount(
 			CourseType[] courseTypes, String keyword, long companyId)
 		throws PortalException {
 
-		return getService().search(courseTypes, keyword, companyId);
+		return getService().searchCount(courseTypes, keyword, companyId);
 	}
 
 	private static CourseSearcher getService() {

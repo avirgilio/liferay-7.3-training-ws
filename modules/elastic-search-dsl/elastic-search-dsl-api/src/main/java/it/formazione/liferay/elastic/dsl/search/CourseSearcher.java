@@ -5,5 +5,9 @@ import it.formazione.liferay.elastic.dsl.model.CourseType;
 
 public interface CourseSearcher {
 	CourseSearchResult search(
+		CourseType[] courseTypes, String keyword, long companyId,
+		int start, int end);
+
+	public long searchCount(
 		CourseType[] courseTypes, String keyword, long companyId);
 }

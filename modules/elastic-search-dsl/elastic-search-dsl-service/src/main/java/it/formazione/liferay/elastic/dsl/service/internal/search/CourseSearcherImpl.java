@@ -8,7 +8,6 @@ import com.liferay.portal.search.query.Queries;
 import com.liferay.portal.search.query.TermQuery;
 import com.liferay.portal.search.query.WildcardQuery;
 import com.liferay.portal.search.searcher.SearchRequest;
-import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.searcher.SearchResponse;
 import com.liferay.portal.search.searcher.Searcher;
@@ -29,26 +28,44 @@ public class CourseSearcherImpl implements CourseSearcher {
 
 	@Override
 	public CourseSearchResult search(
-		CourseType[] courseTypes, String keyword, long companyId) {
+		CourseType[] courseTypes, String keyword, long companyId,
+		int start, int end) {
 
 		BooleanQuery mainBooleanQuery = _queries.booleanQuery();
 
-		boolean hasCourseTypeFilter = ArrayUtil.isNotEmpty(courseTypes);
+		_handleCourseTypeFilter(courseTypes, mainBooleanQuery);
 
-		if (hasCourseTypeFilter) {
+		_handleKeywordFilter(keyword, mainBooleanQuery);
 
-			BooleanQuery atLeastOneCourseTypeQuery = _queries.booleanQuery();
+		SearchRequest request =
+			_searchRequestBuilderFactory
+				.builder()
+				.emptySearchEnabled(true)
+				.modelIndexerClasses(Course.class)
+				.entryClassNames(Course.class.getName())
+				.withSearchContext(
+					searchContext -> {
+						searchContext.setCompanyId(companyId);
+						searchContext.setStart(start);
+						searchContext.setEnd(end);
+					})
+				.query(mainBooleanQuery)
+				.build();
 
-			for (CourseType courseType : courseTypes) {
+		SearchResponse searchResponse = _searcher.search(request);
 
-				TermQuery match = _queries.term(
-					CourseSearchField.FIELD_COURSE_TYPE, courseType.getValue());
+		List<Course> results = searchResponse
+			.getDocumentsStream()
+			.map(doc ->
+				_courseLocalService.fetchCourse(
+					doc.getLong(Field.ENTRY_CLASS_PK)))
+			.collect(Collectors.toList());
 
-				atLeastOneCourseTypeQuery.addShouldQueryClauses(match);
-			}
+		return CourseSearchResult.of(searchResponse.getCount(), results);
+	}
 
-			mainBooleanQuery.addMustQueryClauses(atLeastOneCourseTypeQuery);
-		}
+	private void _handleKeywordFilter(
+		String keyword, BooleanQuery mainBooleanQuery) {
 
 		if (!Validator.isBlank(keyword)) {
 
@@ -69,32 +86,54 @@ public class CourseSearcherImpl implements CourseSearcher {
 
 			mainBooleanQuery.addMustQueryClauses(keywordQuery);
 		}
+	}
 
-		SearchRequestBuilder requestBuilder =
+	@Override
+	public long searchCount(
+		CourseType[] courseTypes, String keyword, long companyId) {
+
+		BooleanQuery mainBooleanQuery = _queries.booleanQuery();
+
+		_handleCourseTypeFilter(courseTypes, mainBooleanQuery);
+		_handleKeywordFilter(keyword, mainBooleanQuery);
+
+		SearchRequest request =
 			_searchRequestBuilderFactory
 				.builder()
-				.entryClassNames(Course.class.getName());
-
-		requestBuilder.emptySearchEnabled(true);
-
-		requestBuilder.withSearchContext(
-			searchContext -> searchContext.setCompanyId(companyId));
-
-		SearchRequest searchRequest =
-			requestBuilder
+				.emptySearchEnabled(true)
+				.modelIndexerClasses(Course.class)
+				.entryClassNames(Course.class.getName())
+				.withSearchContext(
+					searchContext -> {
+						searchContext.setCompanyId(companyId);
+					})
 				.query(mainBooleanQuery)
 				.build();
 
-		SearchResponse searchResponse = _searcher.search(searchRequest);
+		SearchResponse searchResponse = _searcher.search(request);
 
-		List<Course> results = searchResponse
-			.getDocumentsStream()
-			.map(doc ->
-				_courseLocalService.fetchCourse(
-					doc.getLong(Field.ENTRY_CLASS_PK)))
-			.collect(Collectors.toList());
+		return searchResponse.getCount();
+	}
 
-		return CourseSearchResult.of(searchResponse.getCount(), results);
+	private void _handleCourseTypeFilter(
+		CourseType[] courseTypes, BooleanQuery mainBooleanQuery) {
+
+		boolean hasCourseTypeFilter = ArrayUtil.isNotEmpty(courseTypes);
+
+		if (hasCourseTypeFilter) {
+
+			BooleanQuery atLeastOneCourseTypeQuery = _queries.booleanQuery();
+
+			for (CourseType courseType : courseTypes) {
+
+				TermQuery match = _queries.term(
+					CourseSearchField.FIELD_COURSE_TYPE, courseType.getValue());
+
+				atLeastOneCourseTypeQuery.addShouldQueryClauses(match);
+			}
+
+			mainBooleanQuery.addMustQueryClauses(atLeastOneCourseTypeQuery);
+		}
 	}
 
 	@Reference
