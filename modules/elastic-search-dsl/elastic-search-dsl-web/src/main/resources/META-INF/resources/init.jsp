@@ -10,6 +10,14 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="it.formazione.liferay.elastic.dsl.display.context.CourseDisplayContext" %>
 <%@ page import="javax.portlet.PortletURL" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
+<%@ page import="it.formazione.liferay.elastic.dsl.model.Course" %>
+<%@ page import="it.formazione.liferay.elastic.dsl.service.CourseServiceUtil" %>
+<%@ page import="it.formazione.liferay.elastic.dsl.model.CourseType" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page import="com.liferay.taglib.search.ResultRow" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.DisplayTerms" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects />

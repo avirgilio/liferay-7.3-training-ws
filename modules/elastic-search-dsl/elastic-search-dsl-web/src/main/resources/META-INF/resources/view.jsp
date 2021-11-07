@@ -1,5 +1,4 @@
-<%@ page import="com.liferay.portal.kernel.dao.search.DisplayTerms" %>
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
+
 <%@ include file="/init.jsp" %>
 
 <%
@@ -29,10 +28,12 @@
 	sortingURL="<%= courseDisplayContext.getSortingURL() %>"
 />
 
-<div class="container-fluid-1280" id="<portlet:namespace />coursesSearchContainer">
+<div class="container-fluid-1280">
 
 	<liferay-ui:search-container
-		searchContainer="<%= courseDisplayContext.getSearchContainer() %>">
+		id="coursesSearchContainer"
+		searchContainer="<%= courseDisplayContext.getSearchContainer() %>"
+	>
 
 		<liferay-ui:search-container-row
 			className="it.formazione.liferay.elastic.dsl.model.Course"
@@ -56,10 +57,14 @@
 				value="<%= courseDisplayContext.getCourseTypeLabel(course.getCourseType()) %>"
 			/>
 
+			<liferay-ui:search-container-column-jsp
+				cssClass="entry-action-column"
+				path="/course/course-action.jsp"
+			/>
+
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator displayStyle="list" markupView="lexicon" />
-
 	</liferay-ui:search-container>
 
 </div>

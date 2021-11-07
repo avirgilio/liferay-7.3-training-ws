@@ -1,5 +1,6 @@
 package it.formazione.liferay.elastic.dsl.display.context;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
@@ -18,7 +19,6 @@ import it.formazione.liferay.elastic.dsl.search.CourseSearcherUtil;
 import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +69,26 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 
 		return (int) CourseSearcherUtil.searchCount(
 				courseTypesFilter, searchKeyword, themeDisplay.getCompanyId());
+	}
+
+	@Override
+	public CreationMenu getCreationMenu() {
+		return new CreationMenu() {
+			{
+				addPrimaryDropdownItem(
+					dropdownItem -> {
+
+						dropdownItem.setHref(
+							liferayPortletResponse.createRenderURL(),
+							"mvcRenderCommandName",
+							"/course/add",
+							"redirect", themeDisplay.getURLCurrent());
+
+						dropdownItem.setLabel(
+							LanguageUtil.get(request, "add-course"));
+					});
+			}
+		};
 	}
 
 	@Override
