@@ -1,6 +1,5 @@
 package it.formazione.liferay.elastic.dsl.service.internal.search;
 
-import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.query.BooleanQuery;
@@ -17,11 +16,9 @@ import it.formazione.liferay.elastic.dsl.model.CourseSearchResult;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
 import it.formazione.liferay.elastic.dsl.search.CourseSearcher;
 import it.formazione.liferay.elastic.dsl.service.CourseLocalService;
+import it.formazione.liferay.elastic.dsl.service.internal.search.hits.CourseSearchHitsGetter;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component(immediate = true, service = CourseSearcher.class)
 public class CourseSearcherImpl implements CourseSearcher {
@@ -52,16 +49,9 @@ public class CourseSearcherImpl implements CourseSearcher {
 				.query(mainBooleanQuery)
 				.build();
 
-		SearchResponse searchResponse = _searcher.search(request);
-
-		List<Course> results = searchResponse
-			.getDocumentsStream()
-			.map(doc ->
-				_courseLocalService.fetchCourse(
-					doc.getLong(Field.ENTRY_CLASS_PK)))
-			.collect(Collectors.toList());
-
-		return CourseSearchResult.of(searchResponse.getCount(), results);
+		return _searcher
+			.search(request)
+			.withHitsGet(new CourseSearchHitsGetter());
 	}
 
 	@Override
