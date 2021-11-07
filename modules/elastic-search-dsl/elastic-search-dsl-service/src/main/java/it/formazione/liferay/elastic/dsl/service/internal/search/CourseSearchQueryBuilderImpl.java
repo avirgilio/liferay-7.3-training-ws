@@ -20,6 +20,8 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 	public CourseSearchQueryBuilderImpl(Queries queries) {
 		_queries = queries;
 		_mainBooleanQuery = _queries.booleanQuery();
+		_keywordsTermQuery = _queries.booleanQuery();
+		_courseTypesQuery = _queries.booleanQuery();
 	}
 
 	@Override
@@ -28,8 +30,6 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 		boolean hasKeyword = !Validator.isBlank(keyword);
 
 		if (hasKeyword) {
-
-			BooleanQuery keywordQuery = _queries.booleanQuery();
 
 			WildcardQuery courseNameWildCard =
 				_queries.wildcard(
@@ -41,11 +41,21 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 					CourseSearchField.FIELD_COURSE_DESCRIPTION,
 					"*" + keyword.toLowerCase() + "*");
 
-			keywordQuery.addShouldQueryClauses(courseNameWildCard);
-			keywordQuery.addShouldQueryClauses(courseDescriptionWildCard);
-
-			_mainBooleanQuery.addMustQueryClauses(keywordQuery);
+			_keywordsTermQuery.addShouldQueryClauses(courseNameWildCard);
+			_keywordsTermQuery.addShouldQueryClauses(courseDescriptionWildCard);
 		}
+
+		return this;
+	}
+
+	@Override
+	public CourseSearchQueryBuilder addCourseTypeFilter(CourseType courseType) {
+
+		TermQuery newCourseTypeFilter = _queries.term(
+			CourseSearchField.FIELD_COURSE_TYPE,
+			courseType.getValue());
+
+		_courseTypesQuery.addShouldQueryClauses(newCourseTypeFilter);
 
 		return this;
 	}
@@ -58,17 +68,13 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 
 		if (hasCourseTypeFilter) {
 
-			BooleanQuery atLeastOneCourseTypeQuery = _queries.booleanQuery();
-
 			for (CourseType courseType : courseTypes) {
 
 				TermQuery match = _queries.term(
 					CourseSearchField.FIELD_COURSE_TYPE, courseType.getValue());
 
-				atLeastOneCourseTypeQuery.addShouldQueryClauses(match);
+				_courseTypesQuery.addShouldQueryClauses(match);
 			}
-
-			_mainBooleanQuery.addMustQueryClauses(atLeastOneCourseTypeQuery);
 		}
 
 		return this;
@@ -76,10 +82,14 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 
 	@Override
 	public Query build() {
-		return _mainBooleanQuery;
+		return _mainBooleanQuery
+			.addMustQueryClauses(_keywordsTermQuery)
+			.addMustQueryClauses(_courseTypesQuery);
 	}
 
+	private BooleanQuery _keywordsTermQuery;
 	private BooleanQuery _mainBooleanQuery;
+	private BooleanQuery _courseTypesQuery;
 
 	private Queries _queries;
 }

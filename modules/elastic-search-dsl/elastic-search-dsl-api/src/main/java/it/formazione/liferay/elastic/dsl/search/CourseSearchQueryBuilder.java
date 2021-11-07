@@ -7,6 +7,7 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface CourseSearchQueryBuilder {
 	public CourseSearchQueryBuilder addSearchKeywordFilter(String keyword);
+	public CourseSearchQueryBuilder addCourseTypeFilter(CourseType courseType);
 	public CourseSearchQueryBuilder addCourseTypesFilter(CourseType[] courseTypes);
 	public Query build();
 }
