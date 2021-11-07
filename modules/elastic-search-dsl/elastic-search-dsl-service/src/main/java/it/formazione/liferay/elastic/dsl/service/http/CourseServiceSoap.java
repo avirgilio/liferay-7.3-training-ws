@@ -84,6 +84,42 @@ public class CourseServiceSoap {
 		}
 	}
 
+	public static it.formazione.liferay.elastic.dsl.model.CourseSoap getCourse(
+			long courseId)
+		throws RemoteException {
+
+		try {
+			it.formazione.liferay.elastic.dsl.model.Course returnValue =
+				CourseServiceUtil.getCourse(courseId);
+
+			return it.formazione.liferay.elastic.dsl.model.CourseSoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static it.formazione.liferay.elastic.dsl.model.CourseSoap
+			deleteCourse(long courseId)
+		throws RemoteException {
+
+		try {
+			it.formazione.liferay.elastic.dsl.model.Course returnValue =
+				CourseServiceUtil.deleteCourse(courseId);
+
+			return it.formazione.liferay.elastic.dsl.model.CourseSoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static it.formazione.liferay.elastic.dsl.model.CourseSoap[]
 			getCoursesByGroupId()
 		throws RemoteException {
@@ -142,6 +178,27 @@ public class CourseServiceSoap {
 			int returnValue = CourseServiceUtil.getCoursesByGroupIdCount();
 
 			return returnValue;
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static it.formazione.liferay.elastic.dsl.model.CourseSoap
+			updateCourse(
+				long courseId, String courseName, String courseDescription,
+				int courseType)
+		throws RemoteException {
+
+		try {
+			it.formazione.liferay.elastic.dsl.model.Course returnValue =
+				CourseServiceUtil.updateCourse(
+					courseId, courseName, courseDescription, courseType);
+
+			return it.formazione.liferay.elastic.dsl.model.CourseSoap.
+				toSoapModel(returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

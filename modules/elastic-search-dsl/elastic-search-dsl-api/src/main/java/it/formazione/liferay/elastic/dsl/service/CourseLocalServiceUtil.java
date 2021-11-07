@@ -374,6 +374,15 @@ public class CourseLocalServiceUtil {
 		return getService().updateCourse(course);
 	}
 
+	public static Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws PortalException {
+
+		return getService().updateCourse(
+			courseId, courseName, courseDescription, courseType);
+	}
+
 	public static CourseLocalService getService() {
 		return _service;
 	}

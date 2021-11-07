@@ -40,6 +40,22 @@ public class CourseServiceWrapper
 	}
 
 	@Override
+	public it.formazione.liferay.elastic.dsl.model.Course deleteCourse(
+			long courseId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _courseService.deleteCourse(courseId);
+	}
+
+	@Override
+	public it.formazione.liferay.elastic.dsl.model.Course getCourse(
+			long courseId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _courseService.getCourse(courseId);
+	}
+
+	@Override
 	public java.util.List<it.formazione.liferay.elastic.dsl.model.Course>
 			getCoursesByCourseType(int courseType)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -77,6 +93,16 @@ public class CourseServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _courseService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public it.formazione.liferay.elastic.dsl.model.Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _courseService.updateCourse(
+			courseId, courseName, courseDescription, courseType);
 	}
 
 	@Override

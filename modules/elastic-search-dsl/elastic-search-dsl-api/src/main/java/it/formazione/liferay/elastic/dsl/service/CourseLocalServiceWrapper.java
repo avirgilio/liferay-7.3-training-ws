@@ -422,6 +422,16 @@ public class CourseLocalServiceWrapper
 	}
 
 	@Override
+	public it.formazione.liferay.elastic.dsl.model.Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _courseLocalService.updateCourse(
+			courseId, courseName, courseDescription, courseType);
+	}
+
+	@Override
 	public CourseLocalService getWrappedService() {
 		return _courseLocalService;
 	}

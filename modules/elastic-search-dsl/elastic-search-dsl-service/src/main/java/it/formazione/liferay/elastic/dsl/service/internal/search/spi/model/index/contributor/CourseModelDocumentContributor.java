@@ -1,7 +1,6 @@
 package it.formazione.liferay.elastic.dsl.service.internal.search.spi.model.index.contributor;
 
 import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import it.formazione.liferay.elastic.dsl.constants.search.CourseSearchField;
 import it.formazione.liferay.elastic.dsl.model.Course;

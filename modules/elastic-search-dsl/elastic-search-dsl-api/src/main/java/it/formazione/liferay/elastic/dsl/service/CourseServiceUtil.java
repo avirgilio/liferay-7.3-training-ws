@@ -47,6 +47,14 @@ public class CourseServiceUtil {
 			courseName, courseDescription, courseType);
 	}
 
+	public static Course deleteCourse(long courseId) throws PortalException {
+		return getService().deleteCourse(courseId);
+	}
+
+	public static Course getCourse(long courseId) throws PortalException {
+		return getService().getCourse(courseId);
+	}
+
 	public static List<Course> getCoursesByCourseType(int courseType)
 		throws PortalException {
 
@@ -74,6 +82,15 @@ public class CourseServiceUtil {
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws PortalException {
+
+		return getService().updateCourse(
+			courseId, courseName, courseDescription, courseType);
 	}
 
 	public static CourseService getService() {

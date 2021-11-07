@@ -100,4 +100,25 @@ public class CourseLocalServiceImpl extends CourseLocalServiceBaseImpl {
 	public int getCoursesByGroupIdCount(long groupId) {
 		return coursePersistence.countByGroupId(groupId);
 	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
+	public Course updateCourse(
+			long courseId, String courseName,
+			String courseDescription, int courseType)
+		throws PortalException {
+
+		Course course = coursePersistence.findByPrimaryKey(courseId);
+
+		Date now = new Date();
+		course.setModifiedDate(now);
+
+		// CUSTOM FIELD
+
+		course.setCourseName(courseName);
+		course.setCourseType(courseType);
+		course.setCourseDescription(courseDescription);
+
+		return coursePersistence.update(course);
+	}
 }

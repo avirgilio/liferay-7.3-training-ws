@@ -331,4 +331,10 @@ public interface CourseLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Course updateCourse(Course course);
 
+	@Indexable(type = IndexableType.REINDEX)
+	public Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws PortalException;
+
 }

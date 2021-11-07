@@ -58,6 +58,17 @@ public class CourseServiceImpl extends CourseServiceBaseImpl {
 	}
 
 	@Override
+	public Course getCourse(long courseId) throws PortalException {
+		return courseLocalService.getCourse(courseId);
+	}
+
+	@Override
+	public Course deleteCourse(long courseId) throws PortalException {
+
+		return courseLocalService.deleteCourse(courseId);
+	}
+
+	@Override
 	public List<Course> getCoursesByGroupId() throws PortalException {
 		return courseLocalService.getCoursesByGroupId(getUser().getGroupId());
 	}
@@ -81,6 +92,16 @@ public class CourseServiceImpl extends CourseServiceBaseImpl {
 	@Override
 	public int getCoursesByGroupIdCount() throws PortalException {
 		return courseLocalService.getCoursesByGroupIdCount(getUser().getGroupId());
+	}
+
+	@Override
+	public Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws PortalException{
+
+		return courseLocalService.updateCourse(
+			courseId, courseName, courseDescription, courseType);
 	}
 
 }

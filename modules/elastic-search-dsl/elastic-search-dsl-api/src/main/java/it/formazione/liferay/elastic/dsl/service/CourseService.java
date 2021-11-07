@@ -56,6 +56,11 @@ public interface CourseService extends BaseService {
 			String courseName, String courseDescription, int courseType)
 		throws PortalException;
 
+	public Course deleteCourse(long courseId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Course getCourse(long courseId) throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Course> getCoursesByCourseType(int courseType)
 		throws PortalException;
@@ -76,5 +81,10 @@ public interface CourseService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public Course updateCourse(
+			long courseId, String courseName, String courseDescription,
+			int courseType)
+		throws PortalException;
 
 }
