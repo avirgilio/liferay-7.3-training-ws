@@ -64,30 +64,6 @@ public class CourseSearcherImpl implements CourseSearcher {
 		return CourseSearchResult.of(searchResponse.getCount(), results);
 	}
 
-	private void _handleKeywordFilter(
-		String keyword, BooleanQuery mainBooleanQuery) {
-
-		if (!Validator.isBlank(keyword)) {
-
-			BooleanQuery keywordQuery = _queries.booleanQuery();
-
-			WildcardQuery courseNameWildCard =
-				_queries.wildcard(
-					CourseSearchField.FIELD_COURSE_NAME,
-					"*" + keyword.toLowerCase() + "*");
-
-			WildcardQuery courseDescriptionWildCard =
-				_queries.wildcard(
-					CourseSearchField.FIELD_COURSE_DESCRIPTION,
-					"*" + keyword.toLowerCase() + "*");
-
-			keywordQuery.addShouldQueryClauses(courseNameWildCard);
-			keywordQuery.addShouldQueryClauses(courseDescriptionWildCard);
-
-			mainBooleanQuery.addMustQueryClauses(keywordQuery);
-		}
-	}
-
 	@Override
 	public long searchCount(
 		CourseType[] courseTypes, String keyword, long companyId) {
@@ -133,6 +109,30 @@ public class CourseSearcherImpl implements CourseSearcher {
 			}
 
 			mainBooleanQuery.addMustQueryClauses(atLeastOneCourseTypeQuery);
+		}
+	}
+
+	private void _handleKeywordFilter(
+		String keyword, BooleanQuery mainBooleanQuery) {
+
+		if (!Validator.isBlank(keyword)) {
+
+			BooleanQuery keywordQuery = _queries.booleanQuery();
+
+			WildcardQuery courseNameWildCard =
+				_queries.wildcard(
+					CourseSearchField.FIELD_COURSE_NAME,
+					"*" + keyword.toLowerCase() + "*");
+
+			WildcardQuery courseDescriptionWildCard =
+				_queries.wildcard(
+					CourseSearchField.FIELD_COURSE_DESCRIPTION,
+					"*" + keyword.toLowerCase() + "*");
+
+			keywordQuery.addShouldQueryClauses(courseNameWildCard);
+			keywordQuery.addShouldQueryClauses(courseDescriptionWildCard);
+
+			mainBooleanQuery.addMustQueryClauses(keywordQuery);
 		}
 	}
 
