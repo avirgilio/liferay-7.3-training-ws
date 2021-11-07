@@ -10,7 +10,7 @@ import org.osgi.service.component.annotations.Component;
 
 @Component(
 	immediate = true,
-	property = "indexer.class.name=com.liferay.account.model.AccountEntry",
+	property = "indexer.class.name=it.formazione.liferay.elastic.dsl.model.Course",
 	service = ModelPreFilterContributor.class
 )
 public class CourseModelPreFilterContributor
