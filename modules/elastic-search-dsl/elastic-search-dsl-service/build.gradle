@@ -1,0 +1,19 @@
+dependencies {
+	compile project(":modules:elastic-search-dsl:elastic-search-dsl-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../elastic-search-dsl-api/src/main/java"
+}
+
+group = "it.formazione.liferay.elastic.dsl"
+
+tasks.withType(JavaCompile) {
+
+	// Generated classes using Jodd library are unable to be read when compiled against JDK 11
+
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}

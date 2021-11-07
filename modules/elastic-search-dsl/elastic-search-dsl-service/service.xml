@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.3.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_3_0.dtd">
+<service-builder dependency-injector="ds" package-path="it.formazione.liferay.elastic.dsl">
+	<namespace>DSL</namespace>
+
+	<entity local-service="true" name="Course" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="courseId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="courseName" type="String" />
+		<column name="courseDescription" type="String" />
+		<column name="courseType" type="int" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="courseName" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="CourseName" return-type="Collection">
+			<finder-column name="courseName" />
+		</finder>
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<finder name="CourseType" return-type="Collection">
+			<finder-column name="courseType" />
+		</finder>
+
+		<finder name="CourseTypeAndGroupId" return-type="Collection">
+			<finder-column name="courseType" />
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+</service-builder>

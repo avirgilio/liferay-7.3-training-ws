@@ -1,0 +1,11 @@
+Bundle-Name: elastic-search-dsl-api
+Bundle-SymbolicName: it.formazione.liferay.elastic.dsl.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	it.formazione.liferay.elastic.dsl.exception,\
+	it.formazione.liferay.elastic.dsl.model,\
+	it.formazione.liferay.elastic.dsl.service,\
+	it.formazione.liferay.elastic.dsl.service.persistence,\
+	it.formazione.liferay.elastic.dsl.search
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../elastic-search-dsl-service/service.xml
