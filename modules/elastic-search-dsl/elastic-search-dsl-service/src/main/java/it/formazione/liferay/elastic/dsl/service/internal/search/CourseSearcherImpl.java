@@ -26,7 +26,7 @@ public class CourseSearcherImpl implements CourseSearcher {
 		Query query = _courseSearcherFactory
 			.builder()
 			.addCourseTypesFilter(courseTypes)
-			.addSearchKeyword(keyword)
+			.addSearchKeywordFilter(keyword)
 			.build();
 
 		SearchRequest request =
@@ -56,7 +56,7 @@ public class CourseSearcherImpl implements CourseSearcher {
 		Query query = _courseSearcherFactory
 			.builder()
 			.addCourseTypesFilter(courseTypes)
-			.addSearchKeyword(keyword)
+			.addSearchKeywordFilter(keyword)
 			.build();
 
 		SearchRequest request =

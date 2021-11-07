@@ -23,7 +23,7 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 	}
 
 	@Override
-	public CourseSearchQueryBuilder addSearchKeyword(String keyword) {
+	public CourseSearchQueryBuilder addSearchKeywordFilter(String keyword) {
 
 		boolean hasKeyword = !Validator.isBlank(keyword);
 
