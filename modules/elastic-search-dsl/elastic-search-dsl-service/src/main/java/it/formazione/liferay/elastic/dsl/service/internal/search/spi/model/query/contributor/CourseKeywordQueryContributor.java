@@ -9,7 +9,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 @Component(
-	enabled = false, // SECONDO ME NON SERVE
+	enabled = false,
 	immediate = true,
 	property = "indexer.class.name=it.formazione.liferay.elastic.dsl.model.Course",
 	service = KeywordQueryContributor.class

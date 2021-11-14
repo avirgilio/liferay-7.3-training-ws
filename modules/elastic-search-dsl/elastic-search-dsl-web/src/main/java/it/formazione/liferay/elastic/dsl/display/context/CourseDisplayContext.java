@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.ParamUtil;
 import it.formazione.liferay.elastic.dsl.constants.CourseDisplayConstants;
+import it.formazione.liferay.elastic.dsl.constants.search.CourseSearchField;
 import it.formazione.liferay.elastic.dsl.model.Course;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
 import it.formazione.liferay.elastic.dsl.search.CourseSearcherUtil;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Alessandro Virgilio
@@ -98,6 +100,9 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 
 		List<CourseType> courseTypeFilterList = new ArrayList<>();
 
+		_filterCourseOrder = ParamUtil.getString(
+			request, FILTER_COURSE_ORDER, CourseSearchField.FIELD_COURSE_NAME);
+
 		if (_hasCourseTypeFilter) {
 			courseTypeFilterList.add(
 				CourseType.getCourseTypeFromValue(
@@ -109,13 +114,15 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 
 		return CourseSearcherUtil.search(
 				courseTypesFilter, _searchKeyword,
-				themeDisplay.getCompanyId(), start, end).getSearchResults();
+				themeDisplay.getCompanyId(), start, end, _filterCourseOrder)
+			.getSearchResults();
 	}
 
 	@Override
 	public List<DropdownItem> getFilterDropdownItems() {
 		return new DropdownItemList() {
 			{
+
 				addGroup(
 					dropdownGroupItem -> {
 						dropdownGroupItem.setDropdownItems(
@@ -123,8 +130,52 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 						dropdownGroupItem.setLabel(
 							LanguageUtil.get(request, "course-type"));
 					});
+
+				addGroup(
+					dropdownGroupItem -> {
+						dropdownGroupItem.setDropdownItems(
+							getOrderByDropdownItems());
+						dropdownGroupItem.setLabel(
+							LanguageUtil.get(request, "order-by"));
+					});
+
 			}
 		};
+	}
+
+	@Override
+	public String getSortingOrder() {
+		return super.getSortingOrder();
+	}
+
+	@Override
+	protected Map<String, String> getOrderByEntriesMap() {
+		return new LinkedHashMap<String, String>() {{
+			put("course-name", CourseSearchField.FIELD_COURSE_NAME);
+			put("course-description", CourseSearchField.FIELD_COURSE_DESCRIPTION);
+		}};
+	}
+
+	@Override
+	public String getSortingURL() {
+
+		PortletURL sortingURL = getPortletURL();
+
+		sortingURL.setParameter(
+			getOrderByTypeParam(),
+			Objects.equals(getOrderByType(), "asc") ? "desc" : "asc");
+
+		return sortingURL.toString();
+	}
+
+	@Override
+	protected String getOrderByColParam() {
+		return FILTER_COURSE_ORDER;
+	}
+
+	@Override
+	protected String getOrderByCol() {
+		return _filterCourseOrder;
 	}
 
 	@Override
@@ -160,11 +211,15 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 		CourseDisplayContext.class);
 
 	private static final String FILTER_COURSE_TYPE = "filter-course-type";
+	private static final String FILTER_COURSE_ORDER = "filter-course-order";
+
 	private String _filterCourseType;
+	private String _filterCourseOrder;
 
 	private String _searchKeyword;
 
 	private boolean _hasCourseTypeFilter = false;
 
 	private static final String DEFAULT_COURSE_TYPE = "all";
+	private static final String DEFAULT_ORDER_BY = "courseName";
 }

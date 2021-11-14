@@ -12,6 +12,10 @@ import it.formazione.liferay.elastic.dsl.model.CourseType;
 import it.formazione.liferay.elastic.dsl.search.CourseSearchQueryBuilder;
 import org.osgi.service.component.annotations.Component;
 
+/**
+ * Sort and setAttributes(??)
+ * @see com.liferay.account.internal.search.searcher.UserSearchRequestBuilder#_populateSearchContext(com.liferay.portal.kernel.search.SearchContext)
+ * */
 @Component(immediate = true, service = CourseSearchQueryBuilder.class)
 public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 

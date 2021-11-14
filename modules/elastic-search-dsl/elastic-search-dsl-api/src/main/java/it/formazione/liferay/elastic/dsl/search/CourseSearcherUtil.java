@@ -11,10 +11,10 @@ public class CourseSearcherUtil {
 
 	public static CourseSearchResult search(
 			CourseType[] courseTypes, String keyword, long companyId,
-			int start, int end)
+			int start, int end, String orderByCol)
 		throws PortalException {
 
-		return getService().search(courseTypes, keyword, companyId, start, end);
+		return getService().search(courseTypes, keyword, companyId, start, end, orderByCol);
 	}
 
 	public static long searchCount(

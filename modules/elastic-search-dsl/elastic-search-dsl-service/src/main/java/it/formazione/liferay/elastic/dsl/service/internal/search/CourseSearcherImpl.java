@@ -5,6 +5,10 @@ import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.searcher.SearchResponse;
 import com.liferay.portal.search.searcher.Searcher;
+import com.liferay.portal.search.sort.FieldSort;
+import com.liferay.portal.search.sort.SortFieldBuilder;
+import com.liferay.portal.search.sort.SortOrder;
+import com.liferay.portal.search.sort.Sorts;
 import it.formazione.liferay.elastic.dsl.model.Course;
 import it.formazione.liferay.elastic.dsl.model.CourseSearchResult;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
@@ -21,13 +25,19 @@ public class CourseSearcherImpl implements CourseSearcher {
 	@Override
 	public CourseSearchResult search(
 		CourseType[] courseTypes, String keyword, long companyId,
-		int start, int end) {
+		int start, int end, String orderByCol) {
 
 		Query query = _courseSearcherFactory
 			.builder()
 			.addCourseTypesFilter(courseTypes)
 			.addSearchKeywordFilter(keyword)
 			.build();
+
+		SortOrder sortOrder = SortOrder.ASC;
+
+		FieldSort fieldSort = _sorts.field(
+			_sortFieldBuilder.getSortField(Course.class.getName(), orderByCol),
+			sortOrder);
 
 		SearchRequest request =
 			_searchRequestBuilderFactory
@@ -41,6 +51,7 @@ public class CourseSearcherImpl implements CourseSearcher {
 						searchContext.setStart(start);
 						searchContext.setEnd(end);
 					})
+				.sorts(fieldSort)
 				.query(query)
 				.build();
 
@@ -88,5 +99,11 @@ public class CourseSearcherImpl implements CourseSearcher {
 
 	@Reference
 	protected CourseLocalService _courseLocalService;
+
+	@Reference
+	private SortFieldBuilder _sortFieldBuilder;
+
+	@Reference
+	private Sorts _sorts;
 
 }

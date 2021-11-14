@@ -17,14 +17,23 @@ public class CourseModelDocumentContributor
 	@Override
 	public void contribute(Document document, Course course) {
 
-		document.addText(
+		String[] sortableTextFields = { CourseSearchField.FIELD_COURSE_NAME };
+
+		document.setSortableTextFields(sortableTextFields);
+
+		document.addKeywordSortable(
 			CourseSearchField.FIELD_COURSE_NAME, course.getCourseName());
 
 		document.addNumber(
 			CourseSearchField.FIELD_COURSE_TYPE, course.getCourseType());
 
 		document.addText(
-			CourseSearchField.FIELD_COURSE_DESCRIPTION, course.getCourseDescription());
+			CourseSearchField.FIELD_COURSE_DESCRIPTION,
+			course.getCourseDescription());
+
+		document.addKeywordSortable(
+			CourseSearchField.FIELD_COURSE_DESCRIPTION,
+			course.getCourseDescription());
 	}
 
 }
