@@ -3,9 +3,12 @@ package it.formazione.liferay.elastic.dsl.search;
 import com.liferay.portal.kernel.exception.PortalException;
 import it.formazione.liferay.elastic.dsl.model.CourseSearchResult;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
+import it.formazione.liferay.elastic.dsl.model.CourseTypeAggregationResult;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.List;
 
 public class CourseSearcherUtil {
 
@@ -22,6 +25,13 @@ public class CourseSearcherUtil {
 		throws PortalException {
 
 		return getService().searchCount(courseTypes, keyword, companyId);
+	}
+
+	public static List<CourseTypeAggregationResult> getCourseTypes(
+			long groupId, long companyId)
+		throws PortalException {
+
+		return getService().getCourseTypes(groupId, companyId);
 	}
 
 	private static CourseSearcher getService() {

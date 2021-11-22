@@ -17,7 +17,10 @@ public class CourseModelDocumentContributor
 	@Override
 	public void contribute(Document document, Course course) {
 
-		String[] sortableTextFields = { CourseSearchField.FIELD_COURSE_NAME };
+		String[] sortableTextFields = {
+			CourseSearchField.FIELD_COURSE_NAME,
+			CourseSearchField.FIELD_COURSE_DESCRIPTION
+		};
 
 		document.setSortableTextFields(sortableTextFields);
 

@@ -85,6 +85,20 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 	}
 
 	@Override
+	public CourseSearchQueryBuilder addAllCourseTypesFilter() {
+
+		for (CourseType courseType : CourseType.values()) {
+
+			TermQuery match = _queries.term(
+				CourseSearchField.FIELD_COURSE_TYPE, courseType.getValue());
+
+			_courseTypesQuery.addShouldQueryClauses(match);
+		}
+
+		return this;
+	}
+
+	@Override
 	public Query build() {
 		return _mainBooleanQuery
 			.addMustQueryClauses(_keywordsTermQuery)

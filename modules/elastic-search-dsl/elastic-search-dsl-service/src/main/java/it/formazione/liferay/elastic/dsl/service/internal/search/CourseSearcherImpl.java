@@ -1,5 +1,18 @@
 package it.formazione.liferay.elastic.dsl.service.internal.search;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.search.aggregation.AggregationResult;
+import com.liferay.portal.search.aggregation.Aggregations;
+import com.liferay.portal.search.aggregation.bucket.Bucket;
+import com.liferay.portal.search.aggregation.bucket.TermsAggregation;
+import com.liferay.portal.search.aggregation.bucket.TermsAggregationResult;
+import com.liferay.portal.search.engine.adapter.search.SearchRequestExecutor;
+import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
+import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
+import com.liferay.portal.search.groupby.GroupByRequest;
+import com.liferay.portal.search.groupby.GroupByRequestFactory;
 import com.liferay.portal.search.query.Query;
 import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
@@ -9,15 +22,22 @@ import com.liferay.portal.search.sort.FieldSort;
 import com.liferay.portal.search.sort.SortFieldBuilder;
 import com.liferay.portal.search.sort.SortOrder;
 import com.liferay.portal.search.sort.Sorts;
+import it.formazione.liferay.elastic.dsl.constants.search.CourseSearchField;
 import it.formazione.liferay.elastic.dsl.model.Course;
 import it.formazione.liferay.elastic.dsl.model.CourseSearchResult;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
+import it.formazione.liferay.elastic.dsl.model.CourseTypeAggregationResult;
 import it.formazione.liferay.elastic.dsl.search.CourseSearcher;
 import it.formazione.liferay.elastic.dsl.search.CourseSearcherFactory;
 import it.formazione.liferay.elastic.dsl.service.CourseLocalService;
 import it.formazione.liferay.elastic.dsl.service.internal.search.hits.CourseSearchHitsGetter;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Component(immediate = true, service = CourseSearcher.class)
 public class CourseSearcherImpl implements CourseSearcher {
@@ -88,6 +108,62 @@ public class CourseSearcherImpl implements CourseSearcher {
 		return searchResponse.getCount();
 	}
 
+	@Override
+	public List<CourseTypeAggregationResult> getCourseTypes(
+		long groupId, long companyId) {
+
+		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
+		searchSearchRequest.setSize(0);
+
+		String courseTypesAggregationName = "by-course-types";
+
+		TermsAggregation courseTypesAggregation = _aggregations.terms(
+			courseTypesAggregationName,
+			Field.getSortableFieldName(CourseSearchField.FIELD_COURSE_TYPE)
+		);
+
+		Query query = _courseSearcherFactory
+			.builder()
+			.addAllCourseTypesFilter()
+			.build();
+
+		searchSearchRequest.setQuery(query);
+
+		searchSearchRequest.setIndexNames(
+			LIFERAY_ELASTIC_INDEX_PREFIX + companyId);
+
+		searchSearchRequest.addAggregation(courseTypesAggregation);
+
+		SearchSearchResponse searchSearchResponse =
+			_searchRequestExecutor.executeSearchRequest(searchSearchRequest);
+
+		Map<String, AggregationResult> aggregationResultsMap =
+			searchSearchResponse.getAggregationResultsMap();
+
+		TermsAggregationResult termsAggregationResult =
+			(TermsAggregationResult)
+				aggregationResultsMap.get(courseTypesAggregationName);
+
+		Collection<Bucket> courseTypeAggrBuckets =
+			termsAggregationResult.getBuckets();
+
+		List<CourseTypeAggregationResult> results = new ArrayList<>();
+
+		for (Bucket bucket : courseTypeAggrBuckets) {
+
+			CourseTypeAggregationResult bucketResult =
+				CourseTypeAggregationResult.of(
+					CourseType.getCourseTypeFromValue(
+						Integer.parseInt(bucket.getKey())),
+					bucket.getDocCount()
+				);
+
+			results.add(bucketResult);
+		}
+
+		return results;
+	}
+
 	@Reference
 	protected Searcher _searcher;
 
@@ -104,6 +180,19 @@ public class CourseSearcherImpl implements CourseSearcher {
 	private SortFieldBuilder _sortFieldBuilder;
 
 	@Reference
+	private Aggregations _aggregations;
+
+	@Reference
+	private SearchRequestExecutor _searchRequestExecutor;
+
+	@Reference
+	private GroupByRequestFactory _groupByRequestFactory;
+
+	@Reference
 	private Sorts _sorts;
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		CourseSearcherImpl.class);
+
+	private static final String LIFERAY_ELASTIC_INDEX_PREFIX = "liferay-";
 }

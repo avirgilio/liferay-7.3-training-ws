@@ -15,6 +15,7 @@ import it.formazione.liferay.elastic.dsl.constants.CourseDisplayConstants;
 import it.formazione.liferay.elastic.dsl.constants.search.CourseSearchField;
 import it.formazione.liferay.elastic.dsl.model.Course;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
+import it.formazione.liferay.elastic.dsl.model.CourseTypeAggregationResult;
 import it.formazione.liferay.elastic.dsl.search.CourseSearcherUtil;
 
 import javax.portlet.PortletURL;
@@ -191,11 +192,31 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 
 		coursesTypes.put(DEFAULT_COURSE_TYPE, DEFAULT_COURSE_TYPE);
 
-		for (CourseType courseType : CourseType.values()) {
-			coursesTypes.put(
-				courseType.getLabel(),
-				String.valueOf(courseType.getValue())
-			);
+		try {
+
+			List<CourseTypeAggregationResult> aggr =
+				CourseSearcherUtil.getCourseTypes(
+					themeDisplay.getScopeGroupId(), themeDisplay.getCompanyId());
+
+			for (
+				CourseTypeAggregationResult courseTypeAggregationResult : aggr) {
+
+				CourseType courseType =
+					courseTypeAggregationResult.getCourseType();
+
+				String courseLabel = courseType.getLabel().toUpperCase();
+
+				String label =
+					courseLabel +
+					"  (" + courseTypeAggregationResult.getCount() + ")";
+
+				coursesTypes.put(
+					label, String.valueOf(courseType.getValue()));
+			}
+
+		}
+		catch (PortalException e) {
+			_log.error(e, e);
 		}
 
 		return getDropdownItems(

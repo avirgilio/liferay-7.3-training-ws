@@ -2,6 +2,9 @@ package it.formazione.liferay.elastic.dsl.search;
 
 import it.formazione.liferay.elastic.dsl.model.CourseSearchResult;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
+import it.formazione.liferay.elastic.dsl.model.CourseTypeAggregationResult;
+
+import java.util.List;
 
 public interface CourseSearcher {
 
@@ -11,4 +14,7 @@ public interface CourseSearcher {
 
 	public long searchCount(
 		CourseType[] courseTypes, String keyword, long companyId);
+
+	public List<CourseTypeAggregationResult> getCourseTypes(
+		long groupId, long companyId);
 }

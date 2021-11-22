@@ -9,5 +9,6 @@ public interface CourseSearchQueryBuilder {
 	public CourseSearchQueryBuilder addSearchKeywordFilter(String keyword);
 	public CourseSearchQueryBuilder addCourseTypeFilter(CourseType courseType);
 	public CourseSearchQueryBuilder addCourseTypesFilter(CourseType[] courseTypes);
+	public CourseSearchQueryBuilder addAllCourseTypesFilter();
 	public Query build();
 }
