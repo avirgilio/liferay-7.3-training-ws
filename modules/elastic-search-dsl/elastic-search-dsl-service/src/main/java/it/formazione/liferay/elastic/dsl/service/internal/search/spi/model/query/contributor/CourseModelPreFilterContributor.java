@@ -30,14 +30,18 @@ public class CourseModelPreFilterContributor
 		if (serviceContext != null) {
 
 			long currentUserId = serviceContext.getUserId();
+			long currentGroupId = serviceContext.getScopeGroupId();
 
 			booleanFilter.addRequiredTerm(Field.USER_ID, currentUserId);
+			booleanFilter.addRequiredTerm(Field.GROUP_ID, currentGroupId);
+
 			searchContext.setUserId(currentUserId);
+			searchContext.setGroupIds(new long[] { currentGroupId });
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(
 					"PRE FILTER: FILTER SEARCH RESPONSE FOR USER ID: "
-					+ currentUserId);
+					+ currentUserId + " - GROUPID: " + currentGroupId);
 			}
 		}
 	}
