@@ -1,5 +1,6 @@
 package it.formazione.liferay.elastic.dsl.service.internal.search;
 
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.query.BooleanQuery;
@@ -8,14 +9,11 @@ import com.liferay.portal.search.query.Query;
 import com.liferay.portal.search.query.TermQuery;
 import com.liferay.portal.search.query.WildcardQuery;
 import it.formazione.liferay.elastic.dsl.constants.search.CourseSearchField;
+import it.formazione.liferay.elastic.dsl.model.Course;
 import it.formazione.liferay.elastic.dsl.model.CourseType;
 import it.formazione.liferay.elastic.dsl.search.CourseSearchQueryBuilder;
 import org.osgi.service.component.annotations.Component;
 
-/**
- * Sort and setAttributes(??)
- * @see com.liferay.account.internal.search.searcher.UserSearchRequestBuilder#_populateSearchContext(com.liferay.portal.kernel.search.SearchContext)
- * */
 @Component(immediate = true, service = CourseSearchQueryBuilder.class)
 public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 
@@ -26,6 +24,11 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 		_mainBooleanQuery = _queries.booleanQuery();
 		_keywordsTermQuery = _queries.booleanQuery();
 		_courseTypesQuery = _queries.booleanQuery();
+
+		TermQuery classNameQuery =
+			_queries.term(Field.ENTRY_CLASS_NAME, Course.class.getName());
+
+		_mainBooleanQuery.addMustQueryClauses(classNameQuery);
 	}
 
 	@Override
@@ -75,7 +78,8 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 			for (CourseType courseType : courseTypes) {
 
 				TermQuery match = _queries.term(
-					CourseSearchField.FIELD_COURSE_TYPE, courseType.getValue());
+					CourseSearchField.FIELD_COURSE_TYPE,
+					courseType.getValue());
 
 				_courseTypesQuery.addShouldQueryClauses(match);
 			}
@@ -94,6 +98,16 @@ public class CourseSearchQueryBuilderImpl implements CourseSearchQueryBuilder {
 
 			_courseTypesQuery.addShouldQueryClauses(match);
 		}
+
+		return this;
+	}
+
+	@Override
+	public CourseSearchQueryBuilder addGroupIdFilter(String groupId) {
+
+		TermQuery groupIdTerm = _queries.term(Field.GROUP_ID, groupId);
+
+		_mainBooleanQuery.addMustQueryClauses(groupIdTerm);
 
 		return this;
 	}

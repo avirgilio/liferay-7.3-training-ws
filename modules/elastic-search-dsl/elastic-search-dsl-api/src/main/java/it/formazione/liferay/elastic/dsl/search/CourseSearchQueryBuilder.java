@@ -10,5 +10,6 @@ public interface CourseSearchQueryBuilder {
 	public CourseSearchQueryBuilder addCourseTypeFilter(CourseType courseType);
 	public CourseSearchQueryBuilder addCourseTypesFilter(CourseType[] courseTypes);
 	public CourseSearchQueryBuilder addAllCourseTypesFilter();
+	public CourseSearchQueryBuilder addGroupIdFilter(String groupId);
 	public Query build();
 }

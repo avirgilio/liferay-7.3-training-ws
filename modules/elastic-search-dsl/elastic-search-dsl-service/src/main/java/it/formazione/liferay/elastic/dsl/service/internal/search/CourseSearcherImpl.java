@@ -11,8 +11,6 @@ import com.liferay.portal.search.aggregation.bucket.TermsAggregationResult;
 import com.liferay.portal.search.engine.adapter.search.SearchRequestExecutor;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
-import com.liferay.portal.search.groupby.GroupByRequest;
-import com.liferay.portal.search.groupby.GroupByRequestFactory;
 import com.liferay.portal.search.query.Query;
 import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
@@ -125,6 +123,7 @@ public class CourseSearcherImpl implements CourseSearcher {
 		Query query = _courseSearcherFactory
 			.builder()
 			.addAllCourseTypesFilter()
+			.addGroupIdFilter(String.valueOf(groupId))
 			.build();
 
 		searchSearchRequest.setQuery(query);
@@ -151,12 +150,12 @@ public class CourseSearcherImpl implements CourseSearcher {
 
 		for (Bucket bucket : courseTypeAggrBuckets) {
 
+			CourseType courseType = CourseType.getCourseTypeFromValue(
+				Integer.parseInt(bucket.getKey()));
+
 			CourseTypeAggregationResult bucketResult =
 				CourseTypeAggregationResult.of(
-					CourseType.getCourseTypeFromValue(
-						Integer.parseInt(bucket.getKey())),
-					bucket.getDocCount()
-				);
+					courseType, bucket.getDocCount());
 
 			results.add(bucketResult);
 		}
@@ -184,9 +183,6 @@ public class CourseSearcherImpl implements CourseSearcher {
 
 	@Reference
 	private SearchRequestExecutor _searchRequestExecutor;
-
-	@Reference
-	private GroupByRequestFactory _groupByRequestFactory;
 
 	@Reference
 	private Sorts _sorts;
