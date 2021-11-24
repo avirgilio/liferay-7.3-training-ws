@@ -53,7 +53,7 @@ import it.formazione.liferay.elastic.dsl.service.CourseServiceUtil;
 public class CourseServiceHttp {
 
 	public static it.formazione.liferay.elastic.dsl.model.Course createCourse(
-			HttpPrincipal httpPrincipal, String courseName,
+			HttpPrincipal httpPrincipal, long groupId, String courseName,
 			String courseDescription, int courseType)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -63,7 +63,7 @@ public class CourseServiceHttp {
 				_createCourseParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, courseName, courseDescription, courseType);
+				methodKey, groupId, courseName, courseDescription, courseType);
 
 			Object returnObj = null;
 
@@ -376,7 +376,7 @@ public class CourseServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(CourseServiceHttp.class);
 
 	private static final Class<?>[] _createCourseParameterTypes0 = new Class[] {
-		String.class, String.class, int.class
+		long.class, String.class, String.class, int.class
 	};
 	private static final Class<?>[] _getCourseParameterTypes1 = new Class[] {
 		long.class

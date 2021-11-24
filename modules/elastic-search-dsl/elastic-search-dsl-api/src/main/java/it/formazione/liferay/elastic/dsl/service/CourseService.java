@@ -53,7 +53,8 @@ public interface CourseService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>it.formazione.liferay.elastic.dsl.service.impl.CourseServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the course remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CourseServiceUtil} if injection and service tracking are not available.
 	 */
 	public Course createCourse(
-			String courseName, String courseDescription, int courseType)
+			long groupId, String courseName, String courseDescription,
+			int courseType)
 		throws PortalException;
 
 	public Course deleteCourse(long courseId) throws PortalException;

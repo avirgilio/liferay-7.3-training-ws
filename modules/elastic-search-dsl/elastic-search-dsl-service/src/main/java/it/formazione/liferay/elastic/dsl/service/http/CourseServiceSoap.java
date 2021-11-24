@@ -66,13 +66,14 @@ public class CourseServiceSoap {
 
 	public static it.formazione.liferay.elastic.dsl.model.CourseSoap
 			createCourse(
-				String courseName, String courseDescription, int courseType)
+				long groupId, String courseName, String courseDescription,
+				int courseType)
 		throws RemoteException {
 
 		try {
 			it.formazione.liferay.elastic.dsl.model.Course returnValue =
 				CourseServiceUtil.createCourse(
-					courseName, courseDescription, courseType);
+					groupId, courseName, courseDescription, courseType);
 
 			return it.formazione.liferay.elastic.dsl.model.CourseSoap.
 				toSoapModel(returnValue);

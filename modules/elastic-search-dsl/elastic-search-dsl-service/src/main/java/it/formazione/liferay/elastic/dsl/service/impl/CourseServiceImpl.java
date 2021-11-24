@@ -47,13 +47,13 @@ public class CourseServiceImpl extends CourseServiceBaseImpl {
 
 	@Override
 	public Course createCourse(
-			String courseName, String courseDescription, int courseType)
+			long groupId, String courseName, String courseDescription, int courseType)
 		throws PortalException {
 
 		User user = getUser();
 
 		return courseLocalService.createCourse(
-			user.getUserId(), user.getGroupId(), courseName, courseDescription,
+			user.getUserId(), groupId, courseName, courseDescription,
 			courseType);
 	}
 

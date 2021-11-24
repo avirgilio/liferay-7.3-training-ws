@@ -2,6 +2,8 @@ package it.formazione.liferay.elastic.dsl.portlet.action;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import it.formazione.liferay.elastic.dsl.constants.CoursePortletKeys;
@@ -29,6 +31,9 @@ public class AddCourseMVCActionCommand extends BaseMVCActionCommand {
 
 		int courseId = ParamUtil.getInteger(actionRequest, "courseId");
 
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+			actionRequest);
+
 		String courseName = ParamUtil.getString(actionRequest, "courseName");
 
 		String courseDescription =
@@ -40,6 +45,7 @@ public class AddCourseMVCActionCommand extends BaseMVCActionCommand {
 
 		if (isAddMode) {
 			_courseService.createCourse(
+				serviceContext.getScopeGroupId(),
 				courseName, courseDescription, courseType);
 		}
 		else {

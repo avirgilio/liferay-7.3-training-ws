@@ -32,11 +32,12 @@ public class CourseServiceWrapper
 
 	@Override
 	public it.formazione.liferay.elastic.dsl.model.Course createCourse(
-			String courseName, String courseDescription, int courseType)
+			long groupId, String courseName, String courseDescription,
+			int courseType)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _courseService.createCourse(
-			courseName, courseDescription, courseType);
+			groupId, courseName, courseDescription, courseType);
 	}
 
 	@Override

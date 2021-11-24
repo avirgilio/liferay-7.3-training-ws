@@ -40,11 +40,12 @@ public class CourseServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>it.formazione.liferay.elastic.dsl.service.impl.CourseServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static Course createCourse(
-			String courseName, String courseDescription, int courseType)
+			long groupId, String courseName, String courseDescription,
+			int courseType)
 		throws PortalException {
 
 		return getService().createCourse(
-			courseName, courseDescription, courseType);
+			groupId, courseName, courseDescription, courseType);
 	}
 
 	public static Course deleteCourse(long courseId) throws PortalException {
