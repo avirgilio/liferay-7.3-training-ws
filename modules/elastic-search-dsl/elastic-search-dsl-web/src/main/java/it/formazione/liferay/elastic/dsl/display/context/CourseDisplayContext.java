@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import it.formazione.liferay.elastic.dsl.constants.CourseDisplayConstants;
 import it.formazione.liferay.elastic.dsl.constants.search.CourseSearchField;
 import it.formazione.liferay.elastic.dsl.model.Course;
@@ -25,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * @author Alessandro Virgilio
@@ -204,14 +206,19 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 				CourseType courseType =
 					courseTypeAggregationResult.getCourseType();
 
-				String courseLabel = courseType.getLabel().toUpperCase();
+				ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+					"content.Language", themeDisplay.getLocale(),
+					getClass());
 
-				String label =
-					courseLabel +
-					"  (" + courseTypeAggregationResult.getCount() + ")";
+				String newLabel = LanguageUtil.format(
+					resourceBundle, "course-type-x-of-x",
+					new Object[]{
+						courseType.getLabel(),
+						courseTypeAggregationResult.getCount()
+					});
 
 				coursesTypes.put(
-					label, String.valueOf(courseType.getValue()));
+					newLabel, String.valueOf(courseType.getValue()));
 			}
 
 		}
@@ -242,5 +249,4 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 	private boolean _hasCourseTypeFilter = false;
 
 	private static final String DEFAULT_COURSE_TYPE = "all";
-	private static final String DEFAULT_ORDER_BY = "courseName";
 }
