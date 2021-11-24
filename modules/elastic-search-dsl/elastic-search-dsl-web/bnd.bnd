@@ -1,0 +1,4 @@
+Bundle-Name: elastic-search-dsl-web
+Bundle-SymbolicName: it.formazione.liferay.elastic.dsl
+Bundle-Version: 1.0.0
+Export-Package: it.formazione.liferay.elastic.dsl.constants
