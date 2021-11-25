@@ -4,9 +4,6 @@
 <%
 	CourseDisplayContext courseDisplayContext = new CourseDisplayContext(
 		liferayPortletRequest, liferayPortletResponse, request);
-
-	PortletURL mainPortletURL= renderResponse.createRenderURL();
-	mainPortletURL.setParameter("mvcPath", "/view.jsp");
 %>
 
 <clay:management-toolbar

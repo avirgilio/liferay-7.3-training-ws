@@ -83,11 +83,16 @@ public class CourseDisplayContext extends BaseDisplayContext<Course> {
 				addPrimaryDropdownItem(
 					dropdownItem -> {
 
+						PortletURL mainPortletURL =
+							liferayPortletResponse.createRenderURL();
+
+						mainPortletURL.setParameter("mvcPath", "/view.jsp");
+
 						dropdownItem.setHref(
 							liferayPortletResponse.createRenderURL(),
 							"mvcRenderCommandName",
 							"/course/add",
-							"redirect", themeDisplay.getURLCurrent());
+							"redirect", mainPortletURL.toString());
 
 						dropdownItem.setLabel(
 							LanguageUtil.get(request, "add-course"));

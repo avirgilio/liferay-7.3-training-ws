@@ -42,7 +42,7 @@
 
 	<liferay-portlet:actionURL name="/course/delete_course" var="deleteURL">
 		<portlet:param name="courseId" value="<%= String.valueOf(courseId) %>" />
-		<portlet:param name="redirect" value="<%= themeDisplay.getURLCurrent() %>" />
+		<portlet:param name="redirect" value="<%= viewPortletURL %>" />
 	</liferay-portlet:actionURL>
 
 	<liferay-ui:icon-delete
