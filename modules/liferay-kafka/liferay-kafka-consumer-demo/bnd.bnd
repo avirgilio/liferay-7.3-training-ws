@@ -1,0 +1,3 @@
+Bundle-Name: Liferay Kafka Consumer Demo
+Bundle-SymbolicName: it.formazione.liferay.kafka.consumer
+Bundle-Version: 1.0.0

@@ -1,0 +1,4 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly "io.projectreactor.kafka:reactor-kafka:1.1.0.RELEASE"
+}
