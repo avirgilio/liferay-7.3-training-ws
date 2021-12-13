@@ -1,11 +1,16 @@
 package it.formazione.liferay.kafka.consumer;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.consumer.definition.KafkaConsumer;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
+import reactor.core.Disposable;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOffset;
 
@@ -26,6 +31,7 @@ public class LiferayEventsTopicConsumer {
 	}
 
 	@Activate
+	@Modified
 	@SuppressWarnings("unchecked")
 	public void activate(KafkaConsumerConfig consumerConfig) {
 
@@ -49,23 +55,34 @@ public class LiferayEventsTopicConsumer {
 		SimpleDateFormat dateFormat =
 			new SimpleDateFormat("HH:mm:ss:SSS z dd MMM yyyy");
 
-		receiver
+		_consumerDisposable = receiver
 			.receive()
 			.subscribe(record -> {
 				ReceiverOffset offset = record.receiverOffset();
-				System.out.printf(
-					"Received message: topic-partition=%s offset=%d " +
-					"timestamp=%s key=%d value=%s",
-					offset.topicPartition(),
-					offset.offset(),
-					dateFormat.format(new Date(record.timestamp())),
-					record.key(),
-					record.value());
+
+				_log.info(
+					"Received message from topic partition: "
+					+ offset.topicPartition()
+					+ " timestamp = " + dateFormat.format(
+						new Date(record.timestamp()))
+					+ " key =  " + record.key()
+					+ "  value = " + record.value());
 
 				offset.acknowledge();
 			});
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		_consumerDisposable.dispose();
+	}
+
 	@Reference
 	private KafkaConsumer _kafkaConsumer;
+
+	private Disposable _consumerDisposable;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LiferayEventsTopicConsumer.class);
+
 }

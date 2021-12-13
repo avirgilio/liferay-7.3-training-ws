@@ -135,13 +135,16 @@ public class KafkaSimpleProducerSchedulerMessagesListener
 				(new ProducerRecord<>("lfr-events-topic", i, "Message_" + i), i)))
 			.doOnError(e -> _log.error("Send failed", e))
 			.subscribe(r -> {
+
 				RecordMetadata metadata = r.recordMetadata();
-				System.out.printf("Message %d sent successfully, topic-partition=%s-%d offset=%d timestamp=%s\n",
-					r.correlationMetadata(),
-					metadata.topic(),
-					metadata.partition(),
-					metadata.offset(),
-					dateFormat.format(new Date(metadata.timestamp())));
+
+				_log.info(
+					"Message sent successfully in topic: "
+					+ metadata.topic()
+					+ " value: " + r.correlationMetadata()
+					+  " timestamp = " +
+						dateFormat.format(new Date(metadata.timestamp()))
+					);
 			});
 	}
 
