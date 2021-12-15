@@ -32,4 +32,5 @@ Export-Package: \
 	reactor.kafka.receiver,\
     org.apache.kafka.clients.producer,\
 	org.reactivestreams.*,\
-    reactor.kafka.sender,
+    reactor.kafka.sender,\
+    it.formazione.liferay.kafka.integration.api
