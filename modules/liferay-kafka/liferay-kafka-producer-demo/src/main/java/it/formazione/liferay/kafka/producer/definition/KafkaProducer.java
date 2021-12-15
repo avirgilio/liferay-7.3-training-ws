@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 @ProviderType
 public interface KafkaProducer {
 
-	public KafkaSender<?, ?> with(
+	public <A, B> KafkaSender<A, B> with(
 		Consumer<
 			KafkaProducer.KafkaProducerBuilder> kafkaProducerBuilderConsumer);
 

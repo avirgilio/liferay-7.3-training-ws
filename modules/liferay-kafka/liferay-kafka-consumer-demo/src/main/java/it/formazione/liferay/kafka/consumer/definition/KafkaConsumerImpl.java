@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public class KafkaConsumerImpl implements KafkaConsumer{
 
 	@Override
-	public KafkaReceiver<?, ?> on(
+	public <A, B> KafkaReceiver<A, B> on(
 		Consumer<KafkaConsumerBuilder> consumerBuilderConsumer) {
 
 		KafkaConsumerBuilderImpl kafkaConsumerBuilder =
@@ -26,7 +26,7 @@ public class KafkaConsumerImpl implements KafkaConsumer{
 
 		consumerBuilderConsumer.accept(kafkaConsumerBuilder);
 
-		return kafkaConsumerBuilder.build();
+		return (KafkaReceiver<A, B>) kafkaConsumerBuilder.build();
 	}
 
 	private static class KafkaConsumerBuilderImpl

@@ -47,6 +47,7 @@ import java.util.Date;
  * @author Virgilio Alessandro
  */
 @Component(
+	enabled = false,
 	immediate = true,
 	service = KafkaSimpleProducerSchedulerMessagesListener.class
 )
@@ -62,7 +63,6 @@ public class KafkaSimpleProducerSchedulerMessagesListener
 
 	@Activate
 	@Modified
-	@SuppressWarnings("unchecked")
 	protected void activate(KafkaSchedulerConfig config) {
 
 		String cronExpression = GetterUtil.getString(
@@ -84,18 +84,15 @@ public class KafkaSimpleProducerSchedulerMessagesListener
 
 		_initialized = true;
 
-		_sender =
-			(KafkaSender<Integer, String>)
-				_kafkaProducer.with(
-					producer ->
-						producer
-							.bootstrapServerConfig(
-								config.bootstrapServerConfig())
-							.clientId(config.clientId())
-							.acksConfig(config.acksConfig())
-							.keySerializerClass(IntegerSerializer.class)
-							.valueSerializerClass(StringSerializer.class)
-				);
+		_sender = _kafkaProducer.with(
+			producer ->
+				producer
+					.bootstrapServerConfig(config.bootstrapServerConfig())
+					.clientId(config.clientId())
+					.acksConfig(config.acksConfig())
+					.keySerializerClass(IntegerSerializer.class)
+					.valueSerializerClass(StringSerializer.class)
+		);
 	}
 
 	@Deactivate

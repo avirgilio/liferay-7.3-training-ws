@@ -20,7 +20,10 @@ import java.util.Date;
 /**
  * @author Virgilio Alessandro 12/dic/2021
  **/
-@Component(immediate = true, service = LiferayEventsTopicConsumer.class)
+@Component(
+	immediate = true,
+	service = LiferayEventsTopicConsumer.class
+)
 public class LiferayEventsTopicConsumer {
 
 	@interface KafkaConsumerConfig {
@@ -32,13 +35,12 @@ public class LiferayEventsTopicConsumer {
 
 	@Activate
 	@Modified
-	@SuppressWarnings("unchecked")
 	public void activate(KafkaConsumerConfig consumerConfig) {
 
 		String[] topics = new String[] {"lfr-events-topic"};
 
 		KafkaReceiver<Integer, String> receiver =
-			(KafkaReceiver<Integer, String>) _kafkaConsumer
+			_kafkaConsumer
 				.on(consumer ->
 					consumer
 						.autoOffsetResetConfig(

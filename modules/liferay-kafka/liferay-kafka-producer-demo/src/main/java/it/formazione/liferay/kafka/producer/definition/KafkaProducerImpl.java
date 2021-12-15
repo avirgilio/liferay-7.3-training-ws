@@ -17,13 +17,13 @@ import java.util.function.Consumer;
 public class KafkaProducerImpl implements KafkaProducer {
 
 	@Override
-	public KafkaSender<?, ?> with(
+	public <A, B> KafkaSender<A, B> with(
 		Consumer<KafkaProducerBuilder> kafkaProducerBuilderConsumer) {
 
 		KafkaProducerBuilderImpl builder = new KafkaProducerBuilderImpl();
 		kafkaProducerBuilderConsumer.accept(builder);
 
-		return builder.build();
+		return (KafkaSender<A, B>) builder.build();
 	}
 
 	private static class KafkaProducerBuilderImpl

@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 @ProviderType
 public interface KafkaConsumer {
 
-	public KafkaReceiver<?, ?> on(
+	public <A,B> KafkaReceiver<A, B> on(
 		Consumer<KafkaConsumerBuilder> consumerBuilderConsumer);
 
 	@ProviderType
