@@ -10,6 +10,7 @@ import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import reactor.core.Disposable;
@@ -25,7 +26,7 @@ import java.util.List;
 	immediate = true,
 	service = LiferayKafkaProducer.class
 )
-public class MyTopicProducer implements LiferayKafkaProducer<String> {
+public class LiferayEventTopicProducer implements LiferayKafkaProducer<String> {
 
 	@interface KafkaMyTopicProducer {
 		String clientId() default "simple-producer";
@@ -52,6 +53,11 @@ public class MyTopicProducer implements LiferayKafkaProducer<String> {
 		_topic = config.liferay_kafka_producer_topics();
 	}
 
+	@Deactivate
+	public void deactivate() {
+		_sender.close();
+	}
+
 	@Override
 	public Disposable produce(List<String> entity) {
 
@@ -69,7 +75,7 @@ public class MyTopicProducer implements LiferayKafkaProducer<String> {
 				RecordMetadata metadata = r.recordMetadata();
 
 				_log.info(
-					"MY TOPIC PRODUCER: sent message in topic: "
+					"LIFERAY EVENT TOPIC PRODUCER: sent message!"
 					+ metadata.topic()
 					+ " value: " + r.correlationMetadata()
 					+  " timestamp = " +
@@ -83,7 +89,7 @@ public class MyTopicProducer implements LiferayKafkaProducer<String> {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		MyTopicProducer.class);
+		LiferayEventTopicProducer.class);
 
 	@Reference
 	private KafkaProducerFactory _kafkaProducerFactory;
