@@ -10,28 +10,28 @@ import java.util.function.Consumer;
  * @author Virgilio Alessandro 12/dic/2021
  **/
 @ProviderType
-public interface KafkaProducer {
+public interface KafkaProducerFactory {
 
-	public <A, B> KafkaSender<A, B> with(
+	public <A, B> KafkaSender<A, B> builder(
 		Consumer<
-			KafkaProducer.KafkaProducerBuilder> kafkaProducerBuilderConsumer);
+			KafkaProducerFactory.KafkaProducerBuilder> kafkaProducerBuilderConsumer);
 
 	@ProviderType
 	public interface KafkaProducerBuilder {
 
-		public KafkaProducer.KafkaProducerBuilder bootstrapServerConfig(
+		public KafkaProducerFactory.KafkaProducerBuilder bootstrapServerConfig(
 			String bootstrapServerConfig);
 
-		public KafkaProducer.KafkaProducerBuilder clientId(
+		public KafkaProducerFactory.KafkaProducerBuilder clientId(
 			String clientId);
 
-		public KafkaProducer.KafkaProducerBuilder acksConfig(
+		public KafkaProducerFactory.KafkaProducerBuilder acksConfig(
 			String acksConfig);
 
-		public KafkaProducer.KafkaProducerBuilder keySerializerClass(
+		public KafkaProducerFactory.KafkaProducerBuilder keySerializerClass(
 			Class<? extends Serializer<?>> clazz);
 
-		public KafkaProducer.KafkaProducerBuilder valueSerializerClass(
+		public KafkaProducerFactory.KafkaProducerBuilder valueSerializerClass(
 			Class<? extends Serializer<?>> clazz);
 	}
 }

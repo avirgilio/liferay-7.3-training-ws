@@ -3,7 +3,7 @@ package it.formazione.liferay.kafka.producer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.integration.api.LiferayKafkaProducer;
-import it.formazione.liferay.kafka.producer.definition.KafkaProducer;
+import it.formazione.liferay.kafka.producer.definition.KafkaProducerFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.IntegerSerializer;
@@ -39,7 +39,7 @@ public class MyTopicProducer implements LiferayKafkaProducer<String> {
 	@Modified
 	protected void activate(KafkaMyTopicProducer config) {
 
-		_sender = _kafkaProducer.with(
+		_sender = _kafkaProducerFactory.builder(
 			producer ->
 				producer
 					.bootstrapServerConfig(config.bootstrapServerConfig())
@@ -86,7 +86,7 @@ public class MyTopicProducer implements LiferayKafkaProducer<String> {
 		MyTopicProducer.class);
 
 	@Reference
-	private KafkaProducer _kafkaProducer;
+	private KafkaProducerFactory _kafkaProducerFactory;
 
 	private KafkaSender<Integer, String> _sender;
 

@@ -13,11 +13,11 @@ import java.util.function.Consumer;
 /**
  * @author Virgilio Alessandro 12/dic/2021
  **/
-@Component(immediate = true, service = KafkaProducer.class)
-public class KafkaProducerImpl implements KafkaProducer {
+@Component(immediate = true, service = KafkaProducerFactory.class)
+public class KafkaProducerFactoryImpl implements KafkaProducerFactory {
 
 	@Override
-	public <A, B> KafkaSender<A, B> with(
+	public <A, B> KafkaSender<A, B> builder(
 		Consumer<KafkaProducerBuilder> kafkaProducerBuilderConsumer) {
 
 		KafkaProducerBuilderImpl builder = new KafkaProducerBuilderImpl();
@@ -29,31 +29,35 @@ public class KafkaProducerImpl implements KafkaProducer {
 	private static class KafkaProducerBuilderImpl
 		implements KafkaProducerBuilder {
 
-		public KafkaProducer.KafkaProducerBuilder bootstrapServerConfig(
+		public KafkaProducerFactory.KafkaProducerBuilder bootstrapServerConfig(
 			String bootstrapServerConfig) {
 
 			_bootstrapServer = bootstrapServerConfig;
 			return this;
 		}
 
-		public KafkaProducer.KafkaProducerBuilder clientId(String clientId) {
+		public KafkaProducerFactory.KafkaProducerBuilder clientId(
+			String clientId) {
+
 			_clientId = clientId;
 			return this;
 		}
 
-		public KafkaProducer.KafkaProducerBuilder acksConfig(String acksConfig) {
+		public KafkaProducerFactory.KafkaProducerBuilder acksConfig(
+			String acksConfig) {
+
 			_acksConfig = acksConfig;
 			return this;
 		}
 
-		public KafkaProducer.KafkaProducerBuilder keySerializerClass(
+		public KafkaProducerFactory.KafkaProducerBuilder keySerializerClass(
 			Class<? extends Serializer<?>> clazz) {
 
 			_keySerializer = clazz;
 			return this;
 		}
 
-		public KafkaProducer.KafkaProducerBuilder valueSerializerClass(
+		public KafkaProducerFactory.KafkaProducerBuilder valueSerializerClass(
 			Class<? extends Serializer<?>> clazz) {
 
 			_valueSerializer = clazz;

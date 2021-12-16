@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
-import it.formazione.liferay.kafka.producer.definition.KafkaProducer;
+import it.formazione.liferay.kafka.producer.definition.KafkaProducerFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.IntegerSerializer;
@@ -84,7 +84,7 @@ public class KafkaSimpleProducerSchedulerMessagesListener
 
 		_initialized = true;
 
-		_sender = _kafkaProducer.with(
+		_sender = _kafkaProducer.builder(
 			producer ->
 				producer
 					.bootstrapServerConfig(config.bootstrapServerConfig())
@@ -154,7 +154,7 @@ public class KafkaSimpleProducerSchedulerMessagesListener
 	private KafkaSender<Integer, String> _sender;
 
 	@Reference
-	private KafkaProducer _kafkaProducer;
+	private KafkaProducerFactory _kafkaProducer;
 
 	@Reference
 	private SchedulerEngineHelper _schedulerEngineHelper;
