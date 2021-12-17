@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * @author Virgilio Alessandro 12/dic/2021
  **/
 @ProviderType
-public interface KafkaConsumer {
+public interface KafkaConsumerFactory {
 
 	public <A,B> KafkaReceiver<A, B> on(
 		Consumer<KafkaConsumerBuilder> consumerBuilderConsumer);
@@ -18,21 +18,21 @@ public interface KafkaConsumer {
 	@ProviderType
 	public interface KafkaConsumerBuilder {
 
-		public KafkaConsumer.KafkaConsumerBuilder topics(String... topicNames);
+		public KafkaConsumerFactory.KafkaConsumerBuilder topics(String... topicNames);
 
-		public KafkaConsumer.KafkaConsumerBuilder bootstrapServerConfig(
+		public KafkaConsumerFactory.KafkaConsumerBuilder bootstrapServerConfig(
 			String bootstrapServerConfig);
 
-		public KafkaConsumer.KafkaConsumerBuilder clientId(String client);
-		public KafkaConsumer.KafkaConsumerBuilder groupId(String groupId);
+		public KafkaConsumerFactory.KafkaConsumerBuilder clientId(String client);
+		public KafkaConsumerFactory.KafkaConsumerBuilder groupId(String groupId);
 
-		public KafkaConsumer.KafkaConsumerBuilder keyDeserializerClass(
+		public KafkaConsumerFactory.KafkaConsumerBuilder keyDeserializerClass(
 			Class<? extends Deserializer<?>> clazz);
 
-		public KafkaConsumer.KafkaConsumerBuilder valueDeserializerClass(
+		public KafkaConsumerFactory.KafkaConsumerBuilder valueDeserializerClass(
 			Class<? extends Deserializer<?>> clazz);
 
-		public KafkaConsumer.KafkaConsumerBuilder autoOffsetResetConfig(
+		public KafkaConsumerFactory.KafkaConsumerBuilder autoOffsetResetConfig(
 			String autoOffsetResetConfig);
 
 	}

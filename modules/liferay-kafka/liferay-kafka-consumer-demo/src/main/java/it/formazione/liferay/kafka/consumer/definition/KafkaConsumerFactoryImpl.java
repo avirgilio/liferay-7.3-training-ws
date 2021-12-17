@@ -14,8 +14,8 @@ import java.util.function.Consumer;
 /**
  * @author Virgilio Alessandro 12/dic/2021
  **/
-@Component(immediate = true, service = KafkaConsumer.class)
-public class KafkaConsumerImpl implements KafkaConsumer{
+@Component(immediate = true, service = KafkaConsumerFactory.class)
+public class KafkaConsumerFactoryImpl implements KafkaConsumerFactory {
 
 	@Override
 	public <A, B> KafkaReceiver<A, B> on(
@@ -71,18 +71,21 @@ public class KafkaConsumerImpl implements KafkaConsumer{
 		@Override
 		public KafkaConsumerBuilder bootstrapServerConfig(
 			String bootstrapServerConfig) {
+
 			_bootstrapServerConfig = bootstrapServerConfig;
 			return this;
 		}
 
 		@Override
 		public KafkaConsumerBuilder clientId(String client) {
+
 			_clientId = client;
 			return this;
 		}
 
 		@Override
 		public KafkaConsumerBuilder groupId(String groupId) {
+
 			_groupId = groupId;
 			return this;
 		}
@@ -90,6 +93,7 @@ public class KafkaConsumerImpl implements KafkaConsumer{
 		@Override
 		public KafkaConsumerBuilder keyDeserializerClass(
 			Class<? extends Deserializer<?>> clazz) {
+
 			_keyDeserializerClass = clazz;
 			return this;
 		}
@@ -97,6 +101,7 @@ public class KafkaConsumerImpl implements KafkaConsumer{
 		@Override
 		public KafkaConsumerBuilder valueDeserializerClass(
 			Class<? extends Deserializer<?>> clazz) {
+
 			_valueDeserializerClass = clazz;
 			return this;
 		}

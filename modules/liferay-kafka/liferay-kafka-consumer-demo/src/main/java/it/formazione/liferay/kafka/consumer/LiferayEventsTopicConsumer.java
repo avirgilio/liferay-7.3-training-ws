@@ -2,7 +2,7 @@ package it.formazione.liferay.kafka.consumer;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import it.formazione.liferay.kafka.consumer.definition.KafkaConsumer;
+import it.formazione.liferay.kafka.consumer.definition.KafkaConsumerFactory;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.osgi.service.component.annotations.Activate;
@@ -31,16 +31,15 @@ public class LiferayEventsTopicConsumer {
 		String bootstrapServerConfig() default "localhost:9092";
 		String groupId() default "sample-group";
 		String autoOffsetResetConfig() default "earliest";
+ 		String[] topics() default { "lfr-events-topic" };
 	}
 
 	@Activate
 	@Modified
 	public void activate(KafkaConsumerConfig consumerConfig) {
 
-		String[] topics = new String[] {"lfr-events-topic"};
-
 		KafkaReceiver<Integer, String> receiver =
-			_kafkaConsumer
+			_kafkaConsumerFactory
 				.on(consumer ->
 					consumer
 						.autoOffsetResetConfig(
@@ -49,7 +48,7 @@ public class LiferayEventsTopicConsumer {
 						.bootstrapServerConfig(
 							consumerConfig.bootstrapServerConfig())
 						.groupId(consumerConfig.groupId())
-						.topics(topics)
+						.topics(consumerConfig.topics())
 						.keyDeserializerClass(IntegerDeserializer.class)
 						.valueDeserializerClass(StringDeserializer.class)
 				);
@@ -60,6 +59,7 @@ public class LiferayEventsTopicConsumer {
 		_consumerDisposable = receiver
 			.receive()
 			.subscribe(record -> {
+
 				ReceiverOffset offset = record.receiverOffset();
 
 				_log.info(
@@ -80,7 +80,7 @@ public class LiferayEventsTopicConsumer {
 	}
 
 	@Reference
-	private KafkaConsumer _kafkaConsumer;
+	private KafkaConsumerFactory _kafkaConsumerFactory;
 
 	private Disposable _consumerDisposable;
 
