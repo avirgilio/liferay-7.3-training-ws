@@ -64,24 +64,27 @@ public class LiferayEventTopicProducer implements LiferayKafkaProducer<String> {
 		SimpleDateFormat dateFormat =
 			new SimpleDateFormat("HH:mm:ss:SSS z dd MMM yyyy");
 
-		return _sender.send(
-				Flux
-					.fromIterable(entity)
-					.map(msg -> SenderRecord.create(
-						_getProducerRecord(msg), msg.length())))
-			.doOnError(e -> _log.error("Send failed", e))
-			.subscribe(r -> {
+		Flux<SenderRecord<Integer, String, Integer>> recordFlux = Flux
+			.fromIterable(entity)
+			.map(msg -> SenderRecord.create(
+				_getProducerRecord(msg), msg.length()));
 
-				RecordMetadata metadata = r.recordMetadata();
+			return
+				_sender
+					.send(recordFlux)
+					.doOnError(e -> _log.error("Send failed", e))
+					.subscribe(r -> {
 
-				_log.info(
-					"LIFERAY EVENT TOPIC PRODUCER: sent message!"
-					+ metadata.topic()
-					+ " value: " + r.correlationMetadata()
-					+  " timestamp = " +
-					dateFormat.format(new Date(metadata.timestamp()))
-				);
-			});
+						RecordMetadata metadata = r.recordMetadata();
+
+						_log.info(
+							"LIFERAY EVENT TOPIC PRODUCER: sent message!"
+							+ metadata.topic()
+							+ " value: " + r.correlationMetadata()
+							+  " timestamp = " +
+							dateFormat.format(new Date(metadata.timestamp()))
+						);
+					});
 	}
 
 	private ProducerRecord<Integer, String> _getProducerRecord(String msg) {
