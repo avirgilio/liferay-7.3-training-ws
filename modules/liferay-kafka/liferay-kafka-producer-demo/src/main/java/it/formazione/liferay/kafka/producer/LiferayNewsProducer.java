@@ -90,7 +90,7 @@ public class LiferayNewsProducer implements LiferayKafkaProducer<News> {
 	}
 
 	private static final Logger _log = new LiferayReactorLogger(
-		LiferayEventTopicProducer.class);
+		LiferayNewsProducer.class);
 
 	@Reference
 	private KafkaProducerFactory _kafkaProducerFactory;
