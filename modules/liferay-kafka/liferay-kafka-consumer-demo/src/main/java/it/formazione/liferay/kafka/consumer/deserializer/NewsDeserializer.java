@@ -1,11 +1,10 @@
 package it.formazione.liferay.kafka.consumer.deserializer;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.integration.api.constants.LiferayKafkaConsumerConstants;
 import it.formazione.liferay.kafka.integration.api.model.News;
+import it.formazione.liferay.kafka.integration.api.provider.ObjectMapperProvider;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.osgi.service.component.annotations.Component;
 
@@ -32,13 +31,10 @@ public class NewsDeserializer implements Deserializer<News> {
 
 		News news = null;
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		objectMapper.configure(
-			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
 		try {
-			news = objectMapper.readValue(data, News.class);
+			news = ObjectMapperProvider
+				.getObjectMapperInstance()
+				.readValue(data, News.class);
 		}
 		catch (IOException e) {
 			_log.error(e,e);

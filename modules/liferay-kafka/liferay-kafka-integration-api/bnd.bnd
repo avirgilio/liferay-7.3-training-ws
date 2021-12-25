@@ -37,4 +37,5 @@ Export-Package: \
     it.formazione.liferay.kafka.integration.api.model,\
     com.fasterxml.jackson.core,\
     com.fasterxml.jackson.databind,\
-    com.fasterxml.jackson.datatype.jsr310
+    com.fasterxml.jackson.datatype.jsr310,\
+     it.formazione.liferay.kafka.integration.api.provider

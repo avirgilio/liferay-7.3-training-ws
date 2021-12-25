@@ -1,12 +1,10 @@
 package it.formazione.liferay.kafka.producer.serializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.integration.api.model.News;
+import it.formazione.liferay.kafka.integration.api.provider.ObjectMapperProvider;
 import org.apache.kafka.common.serialization.Serializer;
 import org.osgi.service.component.annotations.Component;
 
@@ -23,15 +21,10 @@ public class NewsSerializer implements Serializer<News> {
 
 		byte[] retVal = null;
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		objectMapper.configure(
-			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		//objectMapper.registerModule(new JavaTimeModule());
-
 		try {
-			retVal = objectMapper.writeValueAsBytes(data);
+			retVal = ObjectMapperProvider
+				.getObjectMapperInstance()
+				.writeValueAsBytes(data);
 		}
 		catch (JsonProcessingException e) {
 			_log.error(e.getMessage(), e);
@@ -45,5 +38,4 @@ public class NewsSerializer implements Serializer<News> {
 
 	private final Log _log = LogFactoryUtil.getLog(
 		NewsSerializer.class);
-
 }
