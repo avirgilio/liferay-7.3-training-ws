@@ -1,7 +1,5 @@
 package it.formazione.liferay.kafka.consumer;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.consumer.definition.KafkaConsumerFactory;
 import it.formazione.liferay.kafka.integration.api.log.LiferayReactorLogger;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
