@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.util.GetterUtil;
 import it.formazione.liferay.kafka.integration.api.LiferayKafkaProducer;
+import it.formazione.liferay.kafka.integration.api.model.News;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -35,15 +36,16 @@ import org.osgi.service.component.annotations.Reference;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Virgilio Alessandro
  */
 @Component(
 	immediate = true,
-	service = KafkaSimpleProducerSchedulerMessagesListener.class
+	service = KafkaNewsProducerSchedulerMessagesListener.class
 )
-public class KafkaSimpleProducerSchedulerMessagesListener
+public class KafkaNewsProducerSchedulerMessagesListener
 	extends BaseMessageListener {
 
 	@interface KafkaSchedulerConfig {
@@ -102,20 +104,21 @@ public class KafkaSimpleProducerSchedulerMessagesListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 
-		_liferayKafkaProducer
-			.produce(
-				Collections.singletonList("Scheduler of date: " + new Date()));
+		List<News> producerData = Collections.singletonList(
+			News.of("1", "NEWS TITLE", "NEWS BODY!!"));
+
+		_liferayNewsProducer.produce(producerData);
 	}
 
 	private static final String _DEFAULT_CRON_EXPRESSION = "0 0 0 * * ?";
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		KafkaSimpleProducerSchedulerMessagesListener.class);
+		KafkaNewsProducerSchedulerMessagesListener.class);
 
 	private volatile boolean _initialized;
 
-	@Reference(target = "(component.name=it.formazione.liferay.kafka.producer.LiferayEventTopicProducer)")
-	private LiferayKafkaProducer<String> _liferayKafkaProducer;
+	@Reference(target = "(component.name=it.formazione.liferay.kafka.producer.LiferayNewsProducer)")
+	private LiferayKafkaProducer<News> _liferayNewsProducer;
 
 	@Reference
 	private SchedulerEngineHelper _schedulerEngineHelper;

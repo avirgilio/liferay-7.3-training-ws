@@ -1,11 +1,11 @@
-package it.formazione.liferay.kafka.integration.api;
+package it.formazione.liferay.kafka.integration.api.registry;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceReferenceMapper;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import org.apache.kafka.common.serialization.Serializer;
+import org.apache.kafka.common.serialization.Deserializer;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
@@ -14,48 +14,48 @@ import org.osgi.service.component.annotations.Modified;
 
 import java.util.Set;
 
-@Component(immediate = true, service = KafkaSerializerRegistry.class)
-public class KafkaSerializerRegistry {
+@Component(immediate = true, service = KafkaDeserializerRegistry.class)
+public class KafkaDeserializerRegistry {
 
-	public <T> Serializer<T> getSerializerByClass(Class<?> clazz) {
-		return (Serializer<T>)
-			_serializerServiceTrackerMap.getService(clazz.getName());
+	public <T> Deserializer<T> getDeserializerByClass(Class<?> clazz) {
+		return (Deserializer<T>)
+			_deserializerServiceTrackerMap.getService(clazz.getName());
 	}
 
-	public Set<String> getAvailableSerializers() {
-		return _serializerServiceTrackerMap.keySet();
+	public Set<String> getAvailableDeserializers() {
+		return _deserializerServiceTrackerMap.keySet();
 	}
 
 	@Activate
 	@Modified
 	protected void activate(BundleContext bundleContext) {
 
-		_serializerServiceTrackerMap =
+		_deserializerServiceTrackerMap =
 			 ServiceTrackerMapFactory.openSingleValueMap(
 				bundleContext,
-				(Class<Serializer<?>>) (Class<?>) Serializer.class,
+				(Class<Deserializer<?>>) (Class<?>) Deserializer.class,
 				null,
-				 new KafkaSerializerTracker(bundleContext));
+				 new KafkaDeserializerTracker(bundleContext));
 	}
 
-	private static class KafkaSerializerTracker implements
-		ServiceReferenceMapper<String, Serializer<?>> {
+	private static class KafkaDeserializerTracker
+		implements ServiceReferenceMapper<String, Deserializer<?>> {
 
-		public KafkaSerializerTracker(BundleContext bundleContext) {
+		public KafkaDeserializerTracker(BundleContext bundleContext) {
 			_bundleContext = bundleContext;
 		}
 
 		@Override
 		public void map(
-			ServiceReference<Serializer<?>> serviceReference,
+			ServiceReference<Deserializer<?>> serviceReference,
 			Emitter<String> emitter) {
 
 			try {
 
-				Serializer<?> serializer =
+				Deserializer<?> deserializer =
 					_bundleContext.getService(serviceReference);
 
-				String serializerMapKey = serializer.getClass().getName();
+				String serializerMapKey = deserializer.getClass().getName();
 
 				emitter.emit(serializerMapKey);
 			}
@@ -67,12 +67,12 @@ public class KafkaSerializerRegistry {
 			}
 		}
 
-		private BundleContext _bundleContext;
+		private final BundleContext _bundleContext;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		KafkaSerializerRegistry.class);
+		KafkaDeserializerRegistry.class);
 
-	private ServiceTrackerMap<String, Serializer<?>>
-		_serializerServiceTrackerMap;
+	private ServiceTrackerMap<String, Deserializer<?>>
+		_deserializerServiceTrackerMap;
 }

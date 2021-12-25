@@ -33,4 +33,8 @@ Export-Package: \
     org.apache.kafka.clients.producer,\
 	org.reactivestreams.*,\
     reactor.kafka.sender,\
-    it.formazione.liferay.kafka.integration.api
+    it.formazione.liferay.kafka.integration.api,\
+    it.formazione.liferay.kafka.integration.api.model,\
+    com.fasterxml.jackson.core,\
+    com.fasterxml.jackson.databind,\
+    com.fasterxml.jackson.datatype.jsr310
