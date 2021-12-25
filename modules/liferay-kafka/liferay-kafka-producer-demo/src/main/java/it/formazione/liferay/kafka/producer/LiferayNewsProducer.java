@@ -1,8 +1,7 @@
 package it.formazione.liferay.kafka.producer;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.integration.api.LiferayKafkaProducer;
+import it.formazione.liferay.kafka.integration.api.log.LiferayReactorLogger;
 import it.formazione.liferay.kafka.integration.api.model.News;
 import it.formazione.liferay.kafka.producer.definition.KafkaProducerFactory;
 import it.formazione.liferay.kafka.producer.serializer.NewsSerializer;
@@ -18,6 +17,7 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderRecord;
+import reactor.util.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,6 +73,7 @@ public class LiferayNewsProducer implements LiferayKafkaProducer<News> {
 
 		return _sender
 					.send(newsFlux)
+					.log(_log)
 					.doOnError(e -> _log.error("Send failed", e))
 					.subscribe(r -> {
 
@@ -88,7 +89,7 @@ public class LiferayNewsProducer implements LiferayKafkaProducer<News> {
 					});
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(
+	private static final Logger _log = new LiferayReactorLogger(
 		LiferayEventTopicProducer.class);
 
 	@Reference

@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.consumer.definition.KafkaConsumerFactory;
 import it.formazione.liferay.kafka.consumer.deserializer.NewsDeserializer;
 import it.formazione.liferay.kafka.integration.api.LiferayKafkaConsumer;
+import it.formazione.liferay.kafka.integration.api.log.LiferayReactorLogger;
 import it.formazione.liferay.kafka.integration.api.model.News;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.osgi.service.component.annotations.Activate;
@@ -13,6 +14,7 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import reactor.core.Disposable;
 import reactor.kafka.receiver.KafkaReceiver;
+import reactor.util.Logger;
 
 /**
  * @author Virgilio Alessandro 19/dic/2021
@@ -52,6 +54,7 @@ public class LiferayNewsTopicConsumer implements LiferayKafkaConsumer {
 
 		return _receiver
 			.receive()
+			.log(_log)
 			.subscribe(record -> {
 				News newNews = record.value();
 				_log.info( "RECEIVED NEWS : ");
@@ -64,6 +67,6 @@ public class LiferayNewsTopicConsumer implements LiferayKafkaConsumer {
 
 	private KafkaReceiver<String, News> _receiver;
 
-	private static final Log _log = LogFactoryUtil.getLog(
+	private static final Logger _log = new LiferayReactorLogger(
 		LiferayNewsTopicConsumer.class);
 }

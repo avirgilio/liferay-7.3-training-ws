@@ -3,6 +3,7 @@ package it.formazione.liferay.kafka.consumer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.consumer.definition.KafkaConsumerFactory;
+import it.formazione.liferay.kafka.integration.api.log.LiferayReactorLogger;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.osgi.service.component.annotations.Activate;
@@ -13,6 +14,7 @@ import org.osgi.service.component.annotations.Reference;
 import reactor.core.Disposable;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOffset;
+import reactor.util.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +60,7 @@ public class LiferayEventsTopicConsumer {
 
 		_consumerDisposable = receiver
 			.receive()
+			.log(_log)
 			.subscribe(record -> {
 
 				ReceiverOffset offset = record.receiverOffset();
@@ -84,7 +87,7 @@ public class LiferayEventsTopicConsumer {
 
 	private Disposable _consumerDisposable;
 
-	private static final Log _log = LogFactoryUtil.getLog(
+	private static final Logger _log = new LiferayReactorLogger(
 		LiferayEventsTopicConsumer.class);
 
 }

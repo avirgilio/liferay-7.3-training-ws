@@ -1,8 +1,7 @@
 package it.formazione.liferay.kafka.producer;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.formazione.liferay.kafka.integration.api.LiferayKafkaProducer;
+import it.formazione.liferay.kafka.integration.api.log.LiferayReactorLogger;
 import it.formazione.liferay.kafka.producer.definition.KafkaProducerFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -17,6 +16,7 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderRecord;
+import reactor.util.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,6 +73,7 @@ public class LiferayEventTopicProducer implements LiferayKafkaProducer<String> {
 				_sender
 					.send(recordFlux)
 					.doOnError(e -> _log.error("Send failed", e))
+					.log(_log)
 					.subscribe(r -> {
 
 						RecordMetadata metadata = r.recordMetadata();
@@ -91,7 +92,7 @@ public class LiferayEventTopicProducer implements LiferayKafkaProducer<String> {
 		return new ProducerRecord<>(_topic, msg.length(), msg);
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(
+	private static final Logger _log = new LiferayReactorLogger(
 		LiferayEventTopicProducer.class);
 
 	@Reference
